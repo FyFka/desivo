@@ -19,17 +19,17 @@ const handleMinimize = () => {
     <h1 data-tauri-drag-region class="frame__app-name">Task-manager</h1>
     <div class="frame__controls">
       <button class="frame__minimize" @click="handleMinimize">
-        <svg aria-hidden="true" role="img" width="12" height="12" viewBox="0 0 12 12">
+        <svg width="12" height="12" viewBox="0 0 12 12">
           <rect fill="currentColor" width="10" height="1" x="1" y="6"></rect>
         </svg>
       </button>
       <button class="frame__toggle-maximize" @click="handleToggleMaximize">
-        <svg aria-hidden="true" role="img" width="12" height="12" viewBox="0 0 12 12">
+        <svg width="12" height="12" viewBox="0 0 12 12">
           <rect width="9" height="9" x="1.5" y="1.5" fill="none" stroke="currentColor"></rect>
         </svg>
       </button>
       <button class="frame__close" @click="handleClose">
-        <svg aria-hidden="true" role="img" width="12" height="12" viewBox="0 0 12 12">
+        <svg width="12" height="12" viewBox="0 0 12 12">
           <polygon
             fill="currentColor"
             fill-rule="evenodd"
@@ -77,7 +77,6 @@ const handleMinimize = () => {
   background-color: var(--highlight-danger-color);
 }
 .frame__content {
-  padding: 1rem;
   height: calc(100vh - 1.5rem);
   position: relative;
   overflow: auto;
