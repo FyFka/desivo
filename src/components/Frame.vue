@@ -59,8 +59,6 @@ const handleMinimize = () => {
   user-select: none;
   color: var(--secondary-color);
 }
-.frame__controls {
-}
 .frame__minimize,
 .frame__toggle-maximize,
 .frame__close {

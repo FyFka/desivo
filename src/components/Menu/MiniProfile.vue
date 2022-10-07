@@ -1,28 +1,32 @@
 <script setup lang="ts">
-const props = defineProps({
-  avatarUrl: String,
-});
+import { computed } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { key } from "../../store";
+
+const router = useRouter();
+const store = useStore(key);
+
+const user = computed(() => store.state.user);
 
 const handleLogout = () => {
-  console.log("logout");
+  router.push("/login");
 };
 </script>
 
 <template>
   <div class="mini-profile">
-    <button class="mini-profile__profile-container">
+    <button class="mini-profile__profile-container" v-bind:title="user?.username">
       <h4 class="mini-profile__title">Profile</h4>
-      <img class="mini-profile__avatar" v-bind:src="avatarUrl" alt="avatar" />
+      <img class="mini-profile__avatar" v-bind:src="user?.avatar" alt="avatar" />
     </button>
     <button @click="handleLogout" class="mini-profile__logout">
-      <img src="../../assets/logout.svg" alt="logout" />
+      <img class="mini-profile__logout-img" src="../../assets/logout.svg" alt="logout" />
     </button>
   </div>
 </template>
 
 <style scoped>
-.mini-profile {
-}
 .mini-profile__profile-container {
   width: 100%;
   padding: 0;
@@ -50,5 +54,9 @@ const handleLogout = () => {
 }
 .mini-profile__logout:hover {
   background-color: var(--secondary-color);
+}
+.mini-profile__logout-img {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 </style>
