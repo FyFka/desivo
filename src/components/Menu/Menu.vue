@@ -29,6 +29,86 @@ const handleProjects = () => {
             <img class="menu__item-img" src="../../assets/projects.svg" />
           </button>
         </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
+        <li class="menu__item">
+          <button class="menu__control">
+            <img class="menu__item-img" src="../../assets/projects.svg" />
+          </button>
+        </li>
       </ul>
       <div class="menu__profile">
         <MiniProfile />
@@ -56,6 +136,8 @@ const handleProjects = () => {
   margin: 0;
   padding: 0;
   list-style: none;
+  height: calc(100vh - 3rem - 2rem - 7.75rem);
+  overflow-y: overlay;
 }
 .menu__menu-title {
   margin: 0.5rem 0;
@@ -84,21 +166,11 @@ const handleProjects = () => {
   margin-bottom: 0;
 }
 .menu__profile {
-  position: relative;
-  width: 100%;
   position: absolute;
+  width: 100%;
   bottom: 0.5rem;
   left: 0;
   background: var(--background-color);
   z-index: 2999;
-}
-.menu__profile::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -5rem;
-  height: 5rem;
-  width: 100%;
-  background: linear-gradient(0deg, rgba(16, 18, 19, 1) 35%, rgba(16, 18, 19, 0.75) 100%);
 }
 </style>

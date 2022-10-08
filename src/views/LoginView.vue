@@ -23,13 +23,16 @@ const handleLogin = async () => {
 
 <template>
   <div class="login">
-    <div class="login__container">
-      <h1 class="login__title">Welcome</h1>
-      <input v-model="state.username" class="login__username" type="text" placeholder="Login" />
-      <input v-model="state.password" class="login__password" type="text" placeholder="Password" />
+    <form @submit.prevent="handleLogin" class="login__container">
+      <h1 class="login__title">Login</h1>
+      <input v-model="state.username" class="login__inp" type="text" placeholder="Login" required />
+      <input v-model="state.password" class="login__inp" type="text" placeholder="Password" required />
       <p class="login__error" v-if="state.error">{{ state.error }}</p>
-      <button @click="handleLogin" class="login__log-in">Log in</button>
-    </div>
+      <button type="submit" class="login__submit">Log in</button>
+      <p class="login__not-member">
+        Not a member yet?<router-link class="login__signup" to="/signup">Sign up for free</router-link>
+      </p>
+    </form>
   </div>
 </template>
 
@@ -55,12 +58,13 @@ const handleLogin = async () => {
   margin: 0 0 1rem;
   font-size: 2rem;
 }
-.login__log-in {
+.login__submit {
   background-color: var(--highlight-color);
   width: 100%;
+  margin-bottom: 0.5rem;
 }
-.login__username,
-.login__password {
+
+.login__inp {
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -72,5 +76,13 @@ const handleLogin = async () => {
   left: 0;
   color: var(--highlight-danger-color);
   margin: 0;
+}
+.login__signup {
+  display: inline-block;
+  margin-left: 0.25rem;
+}
+.login__not-member {
+  margin: 0;
+  color: var(--secondary-light-color);
 }
 </style>

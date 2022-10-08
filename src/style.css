@@ -25,9 +25,26 @@ body {
   margin: 0;
   min-width: 320px;
 }
+html {
+  overflow-y: scroll;
+  overflow-y: overlay;
+}
 
 * {
   box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+*::-webkit-scrollbar-track-piece {
+  background-color: #1e2224;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-light-color);
+  border-radius: 1rem;
 }
 
 a {

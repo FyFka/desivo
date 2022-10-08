@@ -20,7 +20,7 @@ const handleLogout = () => {
       <h4 class="mini-profile__title">Profile</h4>
       <img class="mini-profile__avatar" v-bind:src="user?.avatar" alt="avatar" />
     </button>
-    <button @click="handleLogout" class="mini-profile__logout">
+    <button @click="handleLogout" class="mini-profile__logout" title="logout">
       <img class="mini-profile__logout-img" src="../../assets/logout.svg" alt="logout" />
     </button>
   </div>
