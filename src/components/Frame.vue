@@ -39,7 +39,7 @@ const handleMinimize = () => {
       </button>
     </div>
   </header>
-  <main class="frame__content">
+  <main id="dynamic" class="frame__content">
     <slot />
   </main>
 </template>
@@ -77,6 +77,6 @@ const handleMinimize = () => {
 .frame__content {
   height: calc(100vh - 1.5rem);
   position: relative;
-  overflow: auto;
+  overflow: hidden;
 }
 </style>

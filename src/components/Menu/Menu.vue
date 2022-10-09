@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import MiniProfile from "./MiniProfile.vue";
+import NewProject from "../NewProject.vue";
+import { reactive } from "vue";
+import Modal from "../Modal.vue";
+import CreateProject from "../CreateProject.vue";
 
 const router = useRouter();
 
-const handleProjects = () => {
-  router.push("/projects");
+const state = reactive({ isActive: false });
+
+const handleNewProject = () => {
+  state.isActive = true;
 };
 </script>
 
@@ -15,8 +21,8 @@ const handleProjects = () => {
       <h4 class="menu__menu-title">Menu</h4>
       <ul class="menu__list">
         <li class="menu__item">
-          <button @click="handleProjects" class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
+          <button @click="handleNewProject" class="menu__control">
+            <img class="menu__item-img" src="../../assets/new-project.svg" />
           </button>
         </li>
         <li class="menu__item">
@@ -115,6 +121,9 @@ const handleProjects = () => {
       </div>
     </div>
   </aside>
+  <Modal :is-active="state.isActive" @close="state.isActive = false">
+    <CreateProject />
+  </Modal>
 </template>
 
 <style scoped>
@@ -171,6 +180,5 @@ const handleProjects = () => {
   bottom: 0.5rem;
   left: 0;
   background: var(--background-color);
-  z-index: 2999;
 }
 </style>
