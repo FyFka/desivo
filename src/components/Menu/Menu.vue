@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import MiniProfile from "./MiniProfile.vue";
-import NewProject from "../NewProject.vue";
 import { reactive } from "vue";
 import Modal from "../Modal.vue";
 import CreateProject from "../CreateProject.vue";
+import { useProjects } from "../../hooks/useProjects";
 
-const router = useRouter();
+const { projects } = useProjects();
+const state = reactive({ isModalActive: false });
 
-const state = reactive({ isActive: false });
-
-const handleNewProject = () => {
-  state.isActive = true;
+const handleCreateProject = () => {
+  state.isModalActive = true;
 };
 </script>
 
@@ -21,98 +19,13 @@ const handleNewProject = () => {
       <h4 class="menu__menu-title">Menu</h4>
       <ul class="menu__list">
         <li class="menu__item">
-          <button @click="handleNewProject" class="menu__control">
+          <button @click="handleCreateProject" class="menu__control" title="create project">
             <img class="menu__item-img" src="../../assets/new-project.svg" />
           </button>
         </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
-          </button>
-        </li>
-        <li class="menu__item">
-          <button class="menu__control">
-            <img class="menu__item-img" src="../../assets/projects.svg" />
+        <li v-for="project in projects" :key="project.name" class="menu__item">
+          <button class="menu__control" v-bind:title="project.name">
+            <img class="menu__item-img" v-bind:src="project.image" />
           </button>
         </li>
       </ul>
@@ -121,7 +34,7 @@ const handleNewProject = () => {
       </div>
     </div>
   </aside>
-  <Modal :is-active="state.isActive" @close="state.isActive = false">
+  <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
     <CreateProject />
   </Modal>
 </template>
@@ -140,7 +53,6 @@ const handleNewProject = () => {
   text-align: center;
   position: relative;
 }
-
 .menu__list {
   margin: 0;
   padding: 0;

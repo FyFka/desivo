@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { computed } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { key } from "../../store";
+import { useUser } from "../../hooks/useUser";
 
-const router = useRouter();
-const store = useStore(key);
-
-const user = computed(() => store.state.user);
+const { user, logout } = useUser();
 
 const handleLogout = () => {
-  router.push("/login");
+  logout();
 };
 </script>
 
@@ -32,7 +26,6 @@ const handleLogout = () => {
   padding: 0;
   margin-bottom: 0.5rem;
 }
-
 .mini-profile__avatar {
   object-fit: cover;
   width: 2.5rem;

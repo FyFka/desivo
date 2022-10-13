@@ -1,1 +1,0 @@
-{"username":"test","name":"Name","secondName":"Second","avatar":"https://user-images.githubusercontent.com/76843185/194325153-59248d9e-9826-4252-a0c2-64ed7408f4ee.png"}

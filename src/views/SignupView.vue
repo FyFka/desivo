@@ -1,22 +1,14 @@
 <script setup lang="ts">
 import { reactive } from "vue";
-import router from "../router";
-import { useStore } from "vuex";
-import { key } from "../store";
-import { signup } from "../api/user";
+import { useUser } from "../hooks/useUser";
 
 const state = reactive({ username: "", password: "", name: "", secondName: "", error: "" });
-const store = useStore(key);
+const { signup } = useUser();
 
 const handleSignup = async () => {
-  const signupResp = await signup(state.username, state.password, state.name, state.secondName);
-  if (signupResp.value) {
-    const signupDto = signupResp.value;
-    store.commit("setUser", signupDto.user);
-    store.commit("setToken", signupDto.token);
-    router.push("/");
-  } else {
-    state.error = signupResp.message!;
+  const signupResult = await signup(state.username, state.password, state.name, state.secondName);
+  if (signupResult) {
+    state.error = signupResult;
   }
 };
 </script>

@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::{Write, Read};
 
+
 pub fn save_token(token: &str) -> bool{
   let mut file = File::create("token.txt").expect("Error creating file");
   file.write_all( token.as_bytes()).expect("Error writing a file");

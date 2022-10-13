@@ -1,20 +1,15 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { createProject } from "../api/project";
+import { useProjects } from "../hooks/useProjects";
 
-const state = reactive({ name: "", image: new Uint8Array(), imageName: "", error: "" });
+const state = reactive({ name: "", image: "", imageName: "", error: "" });
 const uploadImageRef = ref();
-
-const router = useRouter();
+const { addProject } = useProjects();
 
 const handleCreateProject = async () => {
-  console.log(state.image.length);
-  const createProjResp = await createProject(state.name, state.image.length > 0 ? state.image : undefined);
-  if (createProjResp.value) {
-    router.push("/projects");
-  } else {
-    state.error = createProjResp.message!;
+  const addProjectResult = await addProject(state.name, state.image);
+  if (addProjectResult) {
+    state.error = addProjectResult;
   }
 };
 
@@ -22,16 +17,27 @@ const delegateEvent = () => {
   uploadImageRef.value.click();
 };
 
-const handleImageUpload = async (e: Event) => {
+const uploadImageToBlob = (image: File) => {
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (reader.result) {
+      state.image = reader.result.toString();
+      state.imageName = image.name;
+    }
+  };
+
+  reader.readAsDataURL(image);
+};
+
+const handleImageUpload = async (evt: Event) => {
   const pattern = /image*/;
-  const file = (e.target as HTMLInputElement).files![0];
+  const file = (evt.target as HTMLInputElement).files![0];
   if (!file.type.match(pattern)) {
     state.error = "Invalid image format";
     return;
   }
-  let buffer = await file.arrayBuffer();
-  state.image = new Uint8Array(buffer);
-  state.imageName = file.name;
+
+  uploadImageToBlob(file);
 };
 </script>
 
