@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import VueFrame from "./components/Frame.vue";
 import Loader from "./components/Loader.vue";
 import { reactive, watch } from "vue";
@@ -28,7 +28,7 @@ onMounted(async () => {
   state.isLoaded = true;
 });
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   window.removeEventListener("expiredToken", logout);
 });
 </script>

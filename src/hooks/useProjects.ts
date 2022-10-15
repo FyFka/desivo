@@ -1,6 +1,6 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { createProject, getAllProjects } from "../api/project";
+import { createProject, getAllProjects, joinProject } from "../api/project";
 import { key } from "../store";
 
 export const useProjects = () => {
@@ -9,7 +9,7 @@ export const useProjects = () => {
   const refreshProjects = async () => {
     if (!store.state.token) return;
     const projects = await getAllProjects(store.state.token);
-    if (projects.value && projects.value.length > 1) {
+    if (Array.isArray(projects.value)) {
       store.commit("setProjects", projects.value);
     }
   };
@@ -23,7 +23,16 @@ export const useProjects = () => {
     }
   };
 
+  const joinToProject = async (projectId: string) => {
+    const joinProjResp = await joinProject(projectId, store.state.token);
+    if (joinProjResp.value) {
+      store.commit("addProject", joinProjResp.value);
+    } else {
+      return joinProjResp.message;
+    }
+  };
+
   const projects = computed(() => store.state.projects);
 
-  return { refreshProjects, addProject, projects };
+  return { refreshProjects, addProject, projects, joinToProject };
 };

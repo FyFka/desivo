@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { useProjects } from "../hooks/useProjects";
+import { useProjects } from "../../hooks/useProjects";
 
 const state = reactive({ name: "", image: "", imageName: "", error: "" });
 const uploadImageRef = ref();
 const { addProject } = useProjects();
+const emit = defineEmits(["close"]);
 
 const handleCreateProject = async () => {
   const addProjectResult = await addProject(state.name, state.image);
   if (addProjectResult) {
     state.error = addProjectResult;
+  } else {
+    emit("close");
   }
 };
 
@@ -117,13 +120,5 @@ const handleImageUpload = async (evt: Event) => {
   text-align: center;
   color: var(--highlight-danger-color);
   margin: 0.5rem 0 0;
-}
-.create-project__signup {
-  display: inline-block;
-  margin-left: 0.25rem;
-}
-.create-project__not-member {
-  margin: 0;
-  color: var(--secondary-light-color);
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
 const props = defineProps({ isActive: { type: Boolean, required: true } });
 const emit = defineEmits(["close"]);
@@ -18,7 +18,7 @@ onMounted(() => {
   document.addEventListener("keydown", onKeyDown);
 });
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   document.removeEventListener("keydown", onKeyDown);
 });
 </script>

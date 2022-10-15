@@ -51,7 +51,7 @@ const handleMinimize = () => {
   justify-content: space-between;
   align-items: center;
   height: 1.5rem;
-  background-color: var(--background-color);
+  background-color: var(--the-darkest-color);
 }
 .frame__app-name {
   font-size: 0.75rem;

@@ -54,6 +54,7 @@ export const useUser = () => {
   const logout = () => {
     store.commit("setUser", null);
     store.commit("setToken", "");
+    store.commit("setProjects", []);
     router.push("/login");
   };
 

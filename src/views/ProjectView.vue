@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import Layout from "./Layout.vue";
+import Menu from "../components/Menu/Menu.vue";
 </script>
 
 <template>
   <Layout>
-    <h1>Projects</h1>
+    <Menu />
+    Project #000
   </Layout>
 </template>

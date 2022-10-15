@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Menu from "../components/Menu/Menu.vue";
+import Sidebar from "../components/Sidebar/Sidebar.vue";
 </script>
 
 <template>
   <div class="layout">
-    <Menu />
+    <Sidebar />
     <div class="layout__content">
       <slot />
     </div>
