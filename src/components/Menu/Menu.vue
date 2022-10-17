@@ -1,8 +1,32 @@
+<script setup lang="ts">
+import { PropType } from "vue";
+import { useRoute } from "vue-router";
+import { MenuEnum } from "../../interfaces/IMenu";
+
+const props = defineProps({ menuRoute: { type: Number as PropType<MenuEnum>, required: true } });
+
+const { params } = useRoute();
+</script>
+
 <template>
   <div class="menu">
     <ul class="menu__list">
-      <li class="menu__item">Discussion</li>
-      <li class="menu__item">Tasks</li>
+      <li>
+        <RouterLink
+          :class="{ active: props.menuRoute === MenuEnum.DISCUSSION }"
+          class="menu__link"
+          :to="`/project/${params.id}/discussion`"
+          >Discussion</RouterLink
+        >
+      </li>
+      <li>
+        <RouterLink
+          :class="{ active: props.menuRoute === MenuEnum.TASKS }"
+          class="menu__link"
+          :to="`/project/${params.id}/tasks`"
+          >Tasks</RouterLink
+        >
+      </li>
     </ul>
   </div>
 </template>
@@ -19,7 +43,10 @@
   margin: 0;
   list-style: none;
 }
-.menu__item {
+.menu__link {
   color: var(--secondary-light-color);
+}
+.active {
+  color: var(--neutral-color);
 }
 </style>

@@ -32,10 +32,10 @@ const handleJoinToProject = () => {
     <div class="sidebar__container">
       <h4 class="sidebar__menu-title">Sidebar</h4>
       <ul class="sidebar__list">
-        <li v-for="project in projects" :key="project.name" class="sidebar__item">
-          <router-link class="sidebar__control" :to="`/project/${project.id}`" :title="project.name">
+        <li v-for="project in projects" :key="project.id" class="sidebar__item">
+          <RouterLink class="sidebar__control" :to="`/project/${project.id}/discussion`" :title="project.name">
             <img class="sidebar__item-img" v-bind:src="project.image" />
-          </router-link>
+          </RouterLink>
         </li>
         <li class="sidebar__item">
           <button @click="handleCreateProject" class="sidebar__control" title="create project">

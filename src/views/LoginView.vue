@@ -22,7 +22,7 @@ const handleLogin = async () => {
       <p class="login__error" v-if="state.error">{{ state.error }}</p>
       <button type="submit" class="login__submit">Log in</button>
       <p class="login__not-member">
-        Not a member yet?<router-link class="login__signup" to="/signup">Sign up for free</router-link>
+        Not a member yet?<RouterLink class="login__signup" to="/signup">Sign up for free</RouterLink>
       </p>
     </form>
   </div>

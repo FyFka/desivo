@@ -55,6 +55,7 @@ const handleImageUpload = async (evt: Event) => {
       </button>
       <input
         id="create-project[image]"
+        tabindex="-1"
         ref="uploadImageRef"
         type="file"
         class="create-project__upload--hidden"

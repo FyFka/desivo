@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "@vue/runtime-core";
 import VueFrame from "./components/Frame.vue";
 import Loader from "./components/Loader.vue";
-import { reactive, watch } from "vue";
+import { reactive, watch, onMounted, onUnmounted } from "vue";
 import { useUser } from "./hooks/useUser";
 import { useProjects } from "./hooks/useProjects";
 import { useStore } from "vuex";
 import { key } from "./store";
 
-const state = reactive({ isLoaded: false });
 const { loginByToken, logout } = useUser();
 const { refreshProjects } = useProjects();
 const store = useStore(key);
+const state = reactive({ isLoaded: false });
 
 watch(
   () => store.state.token,
@@ -35,7 +34,7 @@ onUnmounted(() => {
 
 <template>
   <VueFrame>
-    <router-view v-if="state.isLoaded" />
+    <RouterView v-if="state.isLoaded" />
     <Loader v-else />
   </VueFrame>
 </template>

@@ -11,7 +11,6 @@ export const createProject = async (name: string, image: string, token: string) 
     );
     return req.data;
   } catch (err) {
-    console.log(err);
     return { message: err instanceof Error ? err.message : "Unknown network error" };
   }
 };
@@ -23,7 +22,6 @@ export const getAllProjects = async (token: string) => {
     });
     return req.data;
   } catch (err) {
-    console.log(err);
     return { message: err instanceof Error ? err.message : "Unknown network error" };
   }
 };
@@ -39,7 +37,6 @@ export const joinProject = async (projectId: string, token: string) => {
     );
     return req.data;
   } catch (err) {
-    console.log(err);
     return { message: err instanceof Error ? err.message : "Unknown network error" };
   }
 };

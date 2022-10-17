@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { appWindow } from "@tauri-apps/api/window";
+import Footer from "./Footer.vue";
 
 const handleClose = () => {
   appWindow.close();
@@ -42,6 +43,7 @@ const handleMinimize = () => {
   <main id="dynamic" class="frame__content">
     <slot />
   </main>
+  <Footer />
 </template>
 
 <style scoped>

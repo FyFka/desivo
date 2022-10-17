@@ -26,7 +26,7 @@ const handleSignup = async () => {
       <p class="signup__error" v-if="state.error">{{ state.error }}</p>
       <button type="submit" class="signup__submit">Sign up</button>
       <p class="signup__got-account">
-        Already got an account? <router-link class="signup__login" to="/login">Log in</router-link>
+        Already got an account? <RouterLink class="signup__login" to="/login">Log in</RouterLink>
       </p>
     </form>
   </div>
