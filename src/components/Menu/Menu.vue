@@ -5,7 +5,7 @@ import { MenuEnum } from "../../interfaces/IMenu";
 
 const props = defineProps({ menuRoute: { type: Number as PropType<MenuEnum>, required: true } });
 
-const { params } = useRoute();
+const route = useRoute();
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const { params } = useRoute();
         <RouterLink
           :class="{ active: props.menuRoute === MenuEnum.DISCUSSION }"
           class="menu__link"
-          :to="`/project/${params.id}/discussion`"
+          :to="`/project/${route.params.id}/discussion`"
           >Discussion</RouterLink
         >
       </li>
@@ -23,7 +23,7 @@ const { params } = useRoute();
         <RouterLink
           :class="{ active: props.menuRoute === MenuEnum.TASKS }"
           class="menu__link"
-          :to="`/project/${params.id}/tasks`"
+          :to="`/project/${route.params.id}/tasks`"
           >Tasks</RouterLink
         >
       </li>

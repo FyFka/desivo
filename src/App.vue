@@ -6,9 +6,11 @@ import { useUser } from "./hooks/useUser";
 import { useProjects } from "./hooks/useProjects";
 import { useStore } from "vuex";
 import { key } from "./store";
+import { useRoute } from "vue-router";
 
 const { loginByToken, logout } = useUser();
 const { refreshProjects } = useProjects();
+const route = useRoute();
 const store = useStore(key);
 const state = reactive({ isLoaded: false });
 
@@ -34,7 +36,7 @@ onUnmounted(() => {
 
 <template>
   <VueFrame>
-    <RouterView v-if="state.isLoaded" />
+    <RouterView v-if="state.isLoaded" :key="route.path" />
     <Loader v-else />
   </VueFrame>
 </template>

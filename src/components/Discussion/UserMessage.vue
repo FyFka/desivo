@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { useRoute } from "vue-router";
-import { useDiscussion } from "../../hooks/useDiscussion";
+import { sendMessage } from "../../api/discussion";
 
 const state = reactive({ message: "" });
 const route = useRoute();
-const { sendMessage } = useDiscussion();
 
 const handleSubmitMessage = () => {
   sendMessage(state.message, route.params.id.toString());
   state.message = "";
 };
 </script>
+
 <template>
   <form @submit.prevent="handleSubmitMessage" class="user-message">
     <textarea

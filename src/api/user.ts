@@ -1,5 +1,6 @@
 import { IResponse } from "../interfaces/IResponse";
 import { IUser } from "../interfaces/IUser";
+import { dispatchExternalEvent } from "../utils/events";
 import { serverRequest } from "../utils/request";
 
 export const getUserByToken = async (token: string) => {
@@ -32,4 +33,8 @@ export const createUser = async (username: string, password: string, name: strin
   } catch (err) {
     return { message: err instanceof Error ? err.message : "Unknown network error" };
   }
+};
+
+export const registerConnection = (token: string) => {
+  dispatchExternalEvent("connection:register", token);
 };
