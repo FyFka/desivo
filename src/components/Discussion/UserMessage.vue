@@ -17,7 +17,7 @@ const handleSubmitMessage = () => {
     <textarea
       v-model="state.message"
       class="user-message__field"
-      placeholder="Message"
+      placeholder="Write a message"
       @keydown.exact.enter.prevent="handleSubmitMessage"
     ></textarea>
   </form>
@@ -25,17 +25,18 @@ const handleSubmitMessage = () => {
 
 <style scoped>
 .user-message {
+  position: relative;
   display: block;
   padding: 0.25rem;
   height: 3rem;
-  background-color: var(--secondary-color);
+  background-color: #2d3338;
   border-radius: 0.5rem;
   margin: 0.5rem;
 }
 .user-message__field {
   height: 100%;
   width: 100%;
-  background-color: var(--secondary-color);
+  background-color: #2d3338;
   color: var(--neutral-color);
   border: none;
   resize: none;

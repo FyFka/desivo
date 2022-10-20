@@ -44,9 +44,21 @@ const route = useRoute();
   list-style: none;
 }
 .menu__link {
+  position: relative;
   color: var(--secondary-light-color);
 }
 .active {
   color: var(--neutral-color);
+}
+.active::before {
+  content: "";
+  position: absolute;
+  bottom: -0.75rem;
+  left: 0;
+  width: 100%;
+  height: 0.2rem;
+  background-color: var(--neutral-color);
+  border-top-left-radius: 5rem;
+  border-top-right-radius: 5rem;
 }
 </style>

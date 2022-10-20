@@ -13,7 +13,7 @@ const { connectionId } = useConnection();
 <style scoped>
 .footer {
   position: fixed;
-  bottom: 0.05rem;
+  bottom: 0;
   right: 0.5rem;
   user-select: none;
   touch-action: none;
@@ -22,7 +22,8 @@ const { connectionId } = useConnection();
 .footer__connection-id {
   margin: 0;
   color: rgb(255 255 255 / 15%);
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   mix-blend-mode: difference;
+  line-height: 0.8;
 }
 </style>

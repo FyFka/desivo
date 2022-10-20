@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import {
   getMessagesHistory,
@@ -31,8 +31,14 @@ const state = reactive<IDiscussionHistoryState>({
 const route = useRoute();
 const unsubRef = ref<Function[]>([]);
 const projectIdRef = computed(() => route.params.id.toString());
+const messagesRef = ref();
 
-const scrollToLastMessage = () => {};
+const scrollToLastMessage = () => {
+  if (Array.isArray(messagesRef.value)) {
+    const lastMessage = messagesRef.value[messagesRef.value.length - 1];
+    lastMessage.messageRef.scrollIntoView();
+  }
+};
 
 const handleHistory = (discussionHistory: IResponse<IMessageRaw[]>) => {
   if (discussionHistory.value) {
@@ -88,24 +94,29 @@ watch(
     if (state.loading) {
       state.loading = false;
     }
-
-    scrollToLastMessage();
   }
 );
+
+onUpdated(() => {
+  scrollToLastMessage();
+});
 </script>
 
 <template>
   <div v-if="!state.loading" class="discussion__wrapper">
-    <ul class="discussion__history" @scroll="handleHistoryScroll">
-      <Message
-        v-for="message of state.discussionHistory"
-        :key="message.id"
-        :username="message.user.username"
-        :avatar="message.user.avatar"
-        :time="message.time"
-        :message="message.message"
-      />
-    </ul>
+    <div class="discussion__history-wrapper">
+      <ul ref="historyRef" class="discussion__history" @scroll="handleHistoryScroll">
+        <Message
+          v-for="message of state.discussionHistory"
+          :key="message.id"
+          :username="message.user.username"
+          :avatar="message.user.avatar"
+          :time="message.time"
+          :message="message.message"
+          ref="messagesRef"
+        />
+      </ul>
+    </div>
   </div>
   <Loader v-else />
 </template>
@@ -117,12 +128,17 @@ watch(
   height: calc(100vh - 3rem - 2.563rem - 2.5rem);
   overflow: hidden;
 }
-.discussion__history {
+.discussion__history-wrapper {
   height: 100%;
-  background-color: var(--secondary-color);
+  background-color: #1d2125;
   margin: 0.5rem 0.5rem 0;
   border-radius: 0.5rem;
+  overflow: hidden;
+}
+.discussion__history {
+  height: 100%;
   padding: 0;
+  margin: 0;
   list-style: none;
   overflow-y: auto;
 }

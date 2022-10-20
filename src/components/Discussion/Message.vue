@@ -1,14 +1,22 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 const props = defineProps({
   username: { type: String, required: true },
   avatar: { type: String, required: true },
   time: { type: String, required: true },
   message: { type: String, required: true },
 });
+
+const messageRef = ref();
+
+defineExpose({
+  messageRef,
+});
 </script>
 
 <template>
-  <li class="message">
+  <li ref="messageRef" class="message">
     <RouterLink :to="`/profile/${props.username}`" tabindex="-1">
       <img class="message__sender-avatar" :src="props.avatar" />
     </RouterLink>
@@ -42,7 +50,7 @@ const props = defineProps({
 .message__sender-avatar {
   position: absolute;
   left: 1rem;
-  margin-top: 0.125rem;
+  margin-top: 0.25rem;
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 50%;
