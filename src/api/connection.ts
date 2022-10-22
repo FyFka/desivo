@@ -12,3 +12,11 @@ export const subscribeToConnection = (callback: (id: string) => void) => {
     unsubscribeFromDisconnectEvt();
   };
 };
+
+export const subscribeToReconnection = (callback: (id: string) => void) => {
+  const unsubscribeFromReconnectEvt = onExternalSetupEvent("connect", (setup: Socket) => callback(setup.id));
+
+  return () => {
+    unsubscribeFromReconnectEvt();
+  };
+};

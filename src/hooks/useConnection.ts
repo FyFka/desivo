@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { subscribeToConnection } from "../api/connection";
 import { key } from "../store";
@@ -15,7 +15,7 @@ export const useConnection = () => {
     connectionRef.value = subscribeToConnection(handleConnectionChange);
   });
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     connectionRef.value();
   });
 
