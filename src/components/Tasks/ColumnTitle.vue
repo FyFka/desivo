@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import Control from "./Control.vue";
+
+const props = defineProps({
+  title: { type: String, required: true },
+  count: { type: Number, required: true },
+});
 </script>
 
 <template>
   <div class="column-title">
-    <h2 class="column-title__title">New Request <span class="column-title__column-count">8</span></h2>
+    <h2 class="column-title__title">
+      {{ props.title }} <span class="column-title__column-count">{{ props.count }}</span>
+    </h2>
     <Control />
   </div>
 </template>

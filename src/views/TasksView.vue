@@ -1,28 +1,60 @@
 <script setup lang="ts">
-import Layout from "./Layouts/PageLayout.vue";
-import Menu from "../components/Menu/Menu.vue";
+import ProjectLayout from "./Layouts/ProjectLayout.vue";
 import { MenuEnum } from "../interfaces/IMenu";
 import Column from "../components/Tasks/Column.vue";
+import { ITaskColumn } from "../interfaces/ITask";
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { getColumns, sendSubscriptionToTasks, sendUnsubscriptionFromTasks, subscribeToColumns } from "../api/tasks";
+import { useRoute } from "vue-router";
+import { IResponse } from "../interfaces/IResponse";
+
+interface ITasksState {
+  columns: ITaskColumn[];
+}
+
+const state = reactive<ITasksState>({ columns: [] });
+const unsubRef = ref<Function[]>([]);
+const route = useRoute();
+const projectIdRef = computed(() => route.params.id.toString());
+
+const handleColumns = (tasksColumns: IResponse<ITaskColumn[]>) => {
+  if (tasksColumns.value) {
+    state.columns = tasksColumns.value;
+  }
+};
+
+onMounted(() => {
+  unsubRef.value = [subscribeToColumns(handleColumns)];
+  sendSubscriptionToTasks(projectIdRef.value);
+  getColumns(projectIdRef.value);
+});
+
+onBeforeUnmount(() => {
+  sendUnsubscriptionFromTasks(projectIdRef.value);
+  unsubRef.value.forEach((unsubCallback) => unsubCallback());
+});
 </script>
 
 <template>
-  <Layout>
-    <div class="wrapper">
-      <Menu :menu-route="MenuEnum.TASKS" />
-      <div class="tasks">
-        <Column />
-        <Column />
-      </div>
+  <ProjectLayout :menu-route="MenuEnum.TASKS">
+    <div class="tasks">
+      <Column
+        v-for="tasksColumn of state.columns"
+        :tasks="tasksColumn.tasks"
+        :title="tasksColumn.title"
+        :key="tasksColumn.id"
+      />
     </div>
-  </Layout>
+  </ProjectLayout>
 </template>
 
 <style scoped>
 .tasks {
+  height: 100%;
+  width: 100%;
   padding: 0.5rem;
   display: flex;
   gap: 0.75rem;
-  height: 100%;
-  width: 100%;
+  overflow: auto;
 }
 </style>

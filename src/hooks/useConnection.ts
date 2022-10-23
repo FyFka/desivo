@@ -5,18 +5,18 @@ import { key } from "../store";
 
 export const useConnection = () => {
   const store = useStore(key);
-  const connectionRef = ref(() => {});
+  const unsubRef = ref<Function[]>([]);
 
   const handleConnectionChange = (connectionId: string) => {
     store.commit("setConnectionId", connectionId);
   };
 
   onMounted(() => {
-    connectionRef.value = subscribeToConnection(handleConnectionChange);
+    unsubRef.value = [subscribeToConnection(handleConnectionChange)];
   });
 
   onBeforeUnmount(() => {
-    connectionRef.value();
+    unsubRef.value.forEach((unsubCallback) => unsubCallback());
   });
 
   const connectionId = computed(() => store.state.connectionId);

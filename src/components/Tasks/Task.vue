@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { PropType } from "vue";
+import { ILabel } from "../../interfaces/ITask";
 import Control from "./Control.vue";
+
+const props = defineProps({
+  id: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  labels: { type: Array as PropType<ILabel[]>, required: true },
+});
 </script>
 
 <template>
@@ -7,20 +16,21 @@ import Control from "./Control.vue";
     <div class="task__wrapper">
       <div class="task__side-info">
         <div class="task__labels">
-          <div class="task__label">Design</div>
-          <div class="task__label">Task</div>
-          <div class="task__label">Web</div>
-          <div class="task__label">Den</div>
-          <div class="task__label">sign</div>
+          <div
+            v-for="label of props.labels"
+            :key="label.id"
+            class="task__label"
+            :style="{ 'background-color': label.color }"
+          >
+            {{ label.name }}
+          </div>
         </div>
         <Control />
       </div>
       <div class="task__info">
-        <h2 class="task__title">Lorem ipsum dolor sit, amet consectetur</h2>
+        <h2 class="task__title">{{ props.title }}</h2>
         <p class="task__description">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate quia deleniti sunt minima. Ut odio
-          aspernatur voluptatem laboriosam a illo officiis, atque ratione. Tempore culpa repellat doloremque temporibus
-          voluptates iure.
+          {{ props.description }}
         </p>
       </div>
     </div>
@@ -33,6 +43,7 @@ import Control from "./Control.vue";
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  cursor: move;
 }
 .task__wrapper {
   background-color: #1d1f20;
