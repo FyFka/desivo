@@ -7,6 +7,8 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { getColumns, sendSubscriptionToTasks, sendUnsubscriptionFromTasks, subscribeToColumns } from "../api/tasks";
 import { useRoute } from "vue-router";
 import { IResponse } from "../interfaces/IResponse";
+import Loader from "../components/Loader.vue";
+import NewColumn from "../components/Tasks/NewColumn.vue";
 
 interface ITasksState {
   columns: ITaskColumn[];
@@ -38,12 +40,17 @@ onBeforeUnmount(() => {
 <template>
   <ProjectLayout :menu-route="MenuEnum.TASKS">
     <div class="tasks">
-      <Column
-        v-for="tasksColumn of state.columns"
-        :tasks="tasksColumn.tasks"
-        :title="tasksColumn.title"
-        :key="tasksColumn.id"
-      />
+      <template v-if="state.columns.length !== 0">
+        <Column
+          v-for="tasksColumn of state.columns"
+          :tasks="tasksColumn.tasks"
+          :title="tasksColumn.title"
+          :column-id="tasksColumn.id"
+          :key="tasksColumn.id"
+        />
+        <NewColumn :project-id="route.params.id.toString()" />
+      </template>
+      <Loader v-else />
     </div>
   </ProjectLayout>
 </template>

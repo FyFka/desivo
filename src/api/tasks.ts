@@ -10,6 +10,10 @@ export const sendUnsubscriptionFromTasks = (projectId: string) => {
   dispatchExternalEvent("tasks:unsubscribe", { projectId });
 };
 
+export const createTask = (title: string, description: string, columnId: string) => {
+  dispatchExternalEvent("tasks:create", { title, description, columnId });
+};
+
 export const getColumns = (projectId: string) => {
   dispatchExternalEvent("tasks:get-columns", { projectId });
 };
