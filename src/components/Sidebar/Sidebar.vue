@@ -33,7 +33,7 @@ const handleJoinToProject = () => {
       <h4 class="sidebar__menu-title">Sidebar</h4>
       <ul class="sidebar__list">
         <li v-for="project in projects" :key="project.id" class="sidebar__item">
-          <RouterLink class="sidebar__control" :to="`/project/${project.id}/discussion`" :title="project.name">
+          <RouterLink class="sidebar__control" :to="`/project/${project.id}/tasks`" :title="project.name">
             <img class="sidebar__item-img" v-bind:src="project.image" />
           </RouterLink>
         </li>

@@ -10,9 +10,7 @@ const props = defineProps({
 
 const messageRef = ref();
 
-defineExpose({
-  messageRef,
-});
+defineExpose({ messageRef });
 </script>
 
 <template>

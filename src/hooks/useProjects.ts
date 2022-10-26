@@ -1,10 +1,9 @@
 import { computed } from "vue";
-import { useStore } from "vuex";
 import { createProject, getAllProjects, joinProject } from "../api/project";
-import { key } from "../store";
+import { useStore } from "./useStore";
 
 export const useProjects = () => {
-  const store = useStore(key);
+  const store = useStore();
 
   const refreshProjects = async () => {
     if (!store.state.token) return;

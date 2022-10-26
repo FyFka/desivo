@@ -9,6 +9,7 @@ import draggable from "vuedraggable";
 const props = defineProps({
   title: { type: String, required: true },
   columnId: { type: String, required: true },
+  color: { type: String, required: true },
   tasks: { type: Array as PropType<ITask[]>, required: true },
 });
 
@@ -17,7 +18,7 @@ const count = computed(() => props.tasks.length);
 
 <template>
   <div class="column">
-    <ColumnTitle :title="props.title" :count="count" />
+    <ColumnTitle :title="props.title" :count="count" :color="props.color" />
     <NewTask :column-id="props.columnId" />
     <draggable class="column__draggable-zone" :list="props.tasks" itemKey="id" group="tasks">
       <template #item="{ element }">

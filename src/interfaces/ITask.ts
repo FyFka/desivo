@@ -13,6 +13,7 @@ export interface ITask {
 
 export interface ITaskColumn {
   id: string;
+  color: string;
   tasks: ITask[];
   title: string;
 }

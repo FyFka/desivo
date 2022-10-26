@@ -13,6 +13,14 @@ const route = useRoute();
     <ul class="menu__list">
       <li>
         <RouterLink
+          :class="{ active: props.menuRoute === MenuEnum.TASKS }"
+          class="menu__link"
+          :to="`/project/${route.params.id}/tasks`"
+          >Tasks</RouterLink
+        >
+      </li>
+      <li>
+        <RouterLink
           :class="{ active: props.menuRoute === MenuEnum.DISCUSSION }"
           class="menu__link"
           :to="`/project/${route.params.id}/discussion`"
@@ -21,10 +29,10 @@ const route = useRoute();
       </li>
       <li>
         <RouterLink
-          :class="{ active: props.menuRoute === MenuEnum.TASKS }"
+          :class="{ active: props.menuRoute === MenuEnum.SHARE }"
           class="menu__link"
-          :to="`/project/${route.params.id}/tasks`"
-          >Tasks</RouterLink
+          :to="`/project/${route.params.id}/share`"
+          >Share</RouterLink
         >
       </li>
     </ul>

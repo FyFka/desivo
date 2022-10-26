@@ -3,7 +3,7 @@ import { createStore, Store } from "vuex";
 import { IProject } from "../interfaces/IProject";
 import { IUser } from "../interfaces/IUser";
 
-interface IAppStore {
+export interface IAppStore {
   user: IUser | null;
   token: string;
   projects: IProject[];

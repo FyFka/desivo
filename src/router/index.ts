@@ -5,6 +5,7 @@ import SignupView from "../views/SignupView.vue";
 import DiscussionView from "../views/DiscussionView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import TasksView from "../views/TasksView.vue";
+import ShareView from "../views/ShareView.vue";
 
 const routes = [
   { path: "/", name: "Home", component: HomeView },
@@ -12,6 +13,7 @@ const routes = [
   { path: "/signup", name: "Signup", component: SignupView },
   { path: "/project/:id/discussion", name: "Discussion", component: DiscussionView },
   { path: "/project/:id/tasks", name: "Tasks", component: TasksView },
+  { path: "/project/:id/share", name: "Share", component: ShareView },
   { path: "/profile/:username", name: "Profile", component: ProfileView },
 ];
 

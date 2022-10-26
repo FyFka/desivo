@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import { createColumn } from "../../api/tasks";
 
 const props = defineProps({
   projectId: { type: String, required: true },
 });
-const state = reactive({ columnName: "", color: "#E83030" });
+const state = reactive({ columnName: "", color: "#2e81ff" });
 const emit = defineEmits(["close"]);
 
 const handleJoinProject = async () => {
-  console.log(state, props);
+  createColumn(props.projectId, state.columnName, state.color);
   emit("close");
 };
 </script>

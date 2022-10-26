@@ -1,9 +1,8 @@
 import { computed, ComputedRef } from "vue";
-import { useStore } from "vuex";
-import { key } from "../store";
+import { useStore } from "./useStore";
 
 export const useModal = (): [ComputedRef<boolean>, (isOpen: boolean) => void] => {
-  const store = useStore(key);
+  const store = useStore();
 
   const toggleModal = (isOpen: boolean) => {
     store.commit("setModal", isOpen);

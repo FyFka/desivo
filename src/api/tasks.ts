@@ -2,20 +2,32 @@ import { IResponse } from "../interfaces/IResponse";
 import { ITaskColumn } from "../interfaces/ITask";
 import { dispatchExternalEvent, onExternalEvent } from "../utils/events";
 
-export const sendSubscriptionToTasks = (projectId: string) => {
-  dispatchExternalEvent("tasks:subscribe", { projectId });
-};
+export const subscribeToTasks = (projectId: string) => {
+  dispatchExternalEvent("tasks:subscribe", projectId);
 
-export const sendUnsubscriptionFromTasks = (projectId: string) => {
-  dispatchExternalEvent("tasks:unsubscribe", { projectId });
+  return () => {
+    dispatchExternalEvent("tasks:unsubscribe", { projectId });
+  };
 };
 
 export const createTask = (title: string, description: string, columnId: string) => {
-  dispatchExternalEvent("tasks:create", { title, description, columnId });
+  dispatchExternalEvent("tasks:create-task", { title, description, columnId });
 };
 
-export const getColumns = (projectId: string) => {
+export const requestColumns = (projectId: string) => {
   dispatchExternalEvent("tasks:get-columns", { projectId });
+};
+
+export const createColumn = (projectId: string, name: string, color: string) => {
+  dispatchExternalEvent("tasks:create-column", { projectId, name, color });
+};
+
+export const subscribeToNewColumn = (callback: (column: IResponse<ITaskColumn>) => void) => {
+  const unsubscribeFromNewColumnEvt = onExternalEvent("tasks:new-column", callback);
+
+  return () => {
+    unsubscribeFromNewColumnEvt();
+  };
 };
 
 export const subscribeToColumns = (callback: (messages: IResponse<ITaskColumn[]>) => void) => {

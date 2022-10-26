@@ -1,18 +1,18 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import { createUser, getUserByAuth, getUserByToken, registerConnection } from "../api/user";
 import { IUser } from "../interfaces/IUser";
-import { key } from "../store";
 import { getFromAppStorage, setToAppStorage } from "../utils/appStorage";
+import { useStore } from "./useStore";
 
 export const useUser = () => {
   const router = useRouter();
-  const store = useStore(key);
+  const store = useStore();
 
-  const saveToStore = (user: IUser, token: string) => {
+  const saveUser = (user: IUser, token: string) => {
     store.commit("setUser", user);
     store.commit("setToken", token);
+    registerConnection(token);
   };
 
   const loginByToken = async () => {
@@ -21,8 +21,7 @@ export const useUser = () => {
       const userResp = await getUserByToken(token);
       if (userResp.value) {
         const user = userResp.value;
-        saveToStore(user, token);
-        registerConnection(token);
+        saveUser(user, token);
         router.push("/");
       } else {
         router.push("/login");
@@ -36,8 +35,7 @@ export const useUser = () => {
     const loginResp = await getUserByAuth(username, password);
     if (loginResp.value) {
       const { user, token } = loginResp.value;
-      saveToStore(user, token);
-      registerConnection(token);
+      saveUser(user, token);
       await setToAppStorage("cached_token", { token });
       router.push("/");
     } else {
@@ -49,7 +47,7 @@ export const useUser = () => {
     const signupResp = await createUser(username, password, name, secondName);
     if (signupResp.value) {
       const { user, token } = signupResp.value;
-      saveToStore(user, token);
+      saveUser(user, token);
       router.push("/");
     } else {
       return signupResp.message;

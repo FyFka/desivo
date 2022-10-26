@@ -3,21 +3,21 @@ import ProjectLayout from "./Layouts/ProjectLayout.vue";
 import { MenuEnum } from "../interfaces/IMenu";
 import Column from "../components/Tasks/Column.vue";
 import { ITaskColumn } from "../interfaces/ITask";
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
-import { getColumns, sendSubscriptionToTasks, sendUnsubscriptionFromTasks, subscribeToColumns } from "../api/tasks";
+import { computed, onBeforeUnmount, onMounted, reactive } from "vue";
+import { requestColumns, subscribeToColumns, subscribeToNewColumn, subscribeToTasks } from "../api/tasks";
 import { useRoute } from "vue-router";
 import { IResponse } from "../interfaces/IResponse";
 import Loader from "../components/Loader.vue";
 import NewColumn from "../components/Tasks/NewColumn.vue";
+import { useObservable } from "../hooks/useObservable";
 
 interface ITasksState {
   columns: ITaskColumn[];
 }
 
-const state = reactive<ITasksState>({ columns: [] });
-const unsubRef = ref<Function[]>([]);
 const route = useRoute();
-const projectIdRef = computed(() => route.params.id.toString());
+const state = reactive<ITasksState>({ columns: [] });
+const { subscribe, unsubscribeFromAll } = useObservable();
 
 const handleColumns = (tasksColumns: IResponse<ITaskColumn[]>) => {
   if (tasksColumns.value) {
@@ -25,15 +25,22 @@ const handleColumns = (tasksColumns: IResponse<ITaskColumn[]>) => {
   }
 };
 
+const handleNewColumn = (newColumn: IResponse<ITaskColumn>) => {
+  if (newColumn.value) {
+    state.columns.push(newColumn.value);
+  }
+};
+
 onMounted(() => {
-  unsubRef.value = [subscribeToColumns(handleColumns)];
-  sendSubscriptionToTasks(projectIdRef.value);
-  getColumns(projectIdRef.value);
+  subscribe(subscribeToTasks(route.params.id.toString()));
+  subscribe(subscribeToColumns(handleColumns));
+  subscribe(subscribeToNewColumn(handleNewColumn));
+
+  requestColumns(route.params.id.toString());
 });
 
 onBeforeUnmount(() => {
-  sendUnsubscriptionFromTasks(projectIdRef.value);
-  unsubRef.value.forEach((unsubCallback) => unsubCallback());
+  unsubscribeFromAll();
 });
 </script>
 
@@ -45,6 +52,7 @@ onBeforeUnmount(() => {
           v-for="tasksColumn of state.columns"
           :tasks="tasksColumn.tasks"
           :title="tasksColumn.title"
+          :color="tasksColumn.color"
           :column-id="tasksColumn.id"
           :key="tasksColumn.id"
         />

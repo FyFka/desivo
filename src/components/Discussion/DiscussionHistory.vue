@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import {
-  getMessagesHistory,
-  sendSubscriptionToNewMessage,
-  sendUnsubscriptionToNewMessage,
+  requestMessagesHistory,
+  subscribeToDiscussion,
   subscribeToHistoryEnd,
   subscribeToMessagesHistory,
   subscribeToNewMessage,
@@ -13,6 +12,8 @@ import { IMessage, IMessageRaw } from "../../interfaces/IMessage";
 import { IResponse } from "../../interfaces/IResponse";
 import Message from "./Message.vue";
 import Loader from "../Loader.vue";
+import { HISTORY_SKIP_COUNT } from "../../constants";
+import { useObservable } from "../../hooks/useObservable";
 
 interface IDiscussionHistoryState {
   discussionHistory: IMessage[];
@@ -29,8 +30,7 @@ const state = reactive<IDiscussionHistoryState>({
 });
 
 const route = useRoute();
-const unsubRef = ref<Function[]>([]);
-const projectIdRef = computed(() => route.params.id.toString());
+const { subscribe, unsubscribeFromAll } = useObservable();
 const messagesRef = ref();
 
 const scrollToLastMessage = () => {
@@ -68,24 +68,22 @@ const handleNewMessage = (newMessage: IResponse<IMessageRaw>) => {
 const handleHistoryScroll = (evt: Event) => {
   const list = evt.target as HTMLUListElement;
   if (!state.historyEnd && list.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
-    getMessagesHistory(projectIdRef.value, state.historySkip + 25);
-    state.historySkip += 25;
+    requestMessagesHistory(route.params.id.toString(), state.historySkip + HISTORY_SKIP_COUNT);
+    state.historySkip += HISTORY_SKIP_COUNT;
   }
 };
 
 onMounted(() => {
-  unsubRef.value = [
-    subscribeToNewMessage(handleNewMessage),
-    subscribeToMessagesHistory(handleHistory),
-    subscribeToHistoryEnd(handleHistoryEnd),
-  ];
-  sendSubscriptionToNewMessage(projectIdRef.value);
-  getMessagesHistory(projectIdRef.value, state.historySkip);
+  subscribe(subscribeToNewMessage(handleNewMessage));
+  subscribe(subscribeToMessagesHistory(handleHistory));
+  subscribe(subscribeToHistoryEnd(handleHistoryEnd));
+  subscribe(subscribeToDiscussion(route.params.id.toString()));
+
+  requestMessagesHistory(route.params.id.toString(), state.historySkip);
 });
 
 onBeforeUnmount(() => {
-  sendUnsubscriptionToNewMessage(projectIdRef.value);
-  unsubRef.value.forEach((unsubCallback) => unsubCallback());
+  unsubscribeFromAll();
 });
 
 watch(
