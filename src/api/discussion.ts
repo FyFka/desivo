@@ -3,7 +3,7 @@ import { IResponse } from "../interfaces/IResponse";
 import { dispatchExternalEvent, onExternalEvent } from "../utils/events";
 
 export const subscribeToDiscussion = (projectId: string) => {
-  dispatchExternalEvent("discussion:subscribe", projectId);
+  dispatchExternalEvent("discussion:subscribe", { projectId });
 
   return () => {
     dispatchExternalEvent("discussion:unsubscribe", { projectId });

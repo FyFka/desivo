@@ -89,4 +89,11 @@ const props = defineProps({
   color: var(--secondary-light-color);
   margin: 0;
 }
+.task--moveable {
+  border-radius: 0.5rem;
+  border: 0.15rem solid var(--secondary-light-color);
+}
+.task--moveable > * {
+  visibility: hidden;
+}
 </style>

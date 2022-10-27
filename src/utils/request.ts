@@ -3,7 +3,7 @@ import { ROOT_API } from "../constants";
 
 export const serverRequest = axios.create({ baseURL: ROOT_API });
 
-const errorHandler = async (error: any) => {
+const handleInternalError = async (error: any) => {
   const originalRequest = error.config;
   if (error.response.status === 403 && !originalRequest._retry) {
     originalRequest._retry = true;
@@ -14,8 +14,8 @@ const errorHandler = async (error: any) => {
   return Promise.reject(error);
 };
 
-const responseHandler = (response: AxiosResponse) => {
+const handleResponse = (response: AxiosResponse) => {
   return response;
 };
 
-serverRequest.interceptors.response.use(responseHandler, errorHandler);
+serverRequest.interceptors.response.use(handleResponse, handleInternalError);

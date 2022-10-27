@@ -10,7 +10,6 @@ const state = reactive({ isActive: false });
 
 const handleNewTask = () => {
   state.isActive = !state.isActive;
-  console.log(props.columnId);
 };
 </script>
 

@@ -1,9 +1,10 @@
+import { IZippedColumns } from "../interfaces/IZippedColumns";
 import { IResponse } from "../interfaces/IResponse";
-import { ITaskColumn } from "../interfaces/ITask";
+import { ITask, ITaskColumn } from "../interfaces/ITask";
 import { dispatchExternalEvent, onExternalEvent } from "../utils/events";
 
 export const subscribeToTasks = (projectId: string) => {
-  dispatchExternalEvent("tasks:subscribe", projectId);
+  dispatchExternalEvent("tasks:subscribe", { projectId });
 
   return () => {
     dispatchExternalEvent("tasks:unsubscribe", { projectId });
@@ -22,6 +23,26 @@ export const createColumn = (projectId: string, name: string, color: string) => 
   dispatchExternalEvent("tasks:create-column", { projectId, name, color });
 };
 
+export const moveTasks = (projectId: string, zippedColumns: IZippedColumns) => {
+  dispatchExternalEvent("tasks:move-tasks", { projectId, zippedColumns });
+};
+
+export const subscribeToMoveTasks = (callback: (columns: IResponse<ITaskColumn[]>) => void) => {
+  const unsubscribeFromMoveTasksEvt = onExternalEvent("tasks:tasks-moved", callback);
+
+  return () => {
+    unsubscribeFromMoveTasksEvt();
+  };
+};
+
+export const subscribeToNewTask = (callback: (newTask: IResponse<{ columnId: string; task: ITask }>) => void) => {
+  const unsubscribeFromNewTaskEvt = onExternalEvent("tasks:new-task", callback);
+
+  return () => {
+    unsubscribeFromNewTaskEvt();
+  };
+};
+
 export const subscribeToNewColumn = (callback: (column: IResponse<ITaskColumn>) => void) => {
   const unsubscribeFromNewColumnEvt = onExternalEvent("tasks:new-column", callback);
 
@@ -30,7 +51,7 @@ export const subscribeToNewColumn = (callback: (column: IResponse<ITaskColumn>) 
   };
 };
 
-export const subscribeToColumns = (callback: (messages: IResponse<ITaskColumn[]>) => void) => {
+export const subscribeToColumns = (callback: (columns: IResponse<ITaskColumn[]>) => void) => {
   const unsubscribeFromColumnsEvt = onExternalEvent("tasks:columns", callback);
 
   return () => {

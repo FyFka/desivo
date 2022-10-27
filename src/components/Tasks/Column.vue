@@ -13,14 +13,27 @@ const props = defineProps({
   tasks: { type: Array as PropType<ITask[]>, required: true },
 });
 
+const emit = defineEmits(["task-drop"]);
+
 const count = computed(() => props.tasks.length);
+
+const handleTaskDrop = () => {
+  emit("task-drop");
+};
 </script>
 
 <template>
   <div class="column">
     <ColumnTitle :title="props.title" :count="count" :color="props.color" />
     <NewTask :column-id="props.columnId" />
-    <draggable class="column__draggable-zone" :list="props.tasks" itemKey="id" group="tasks">
+    <draggable
+      class="column__draggable-zone"
+      :list="props.tasks"
+      itemKey="id"
+      group="tasks-columns"
+      ghost-class="task--moveable"
+      @end="handleTaskDrop"
+    >
       <template #item="{ element }">
         <Task :id="element.id" :title="element.title" :description="element.description" :labels="element.labels" />
       </template>
