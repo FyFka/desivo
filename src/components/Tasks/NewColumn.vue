@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import Modal from "../Modal/Modal.vue";
-import CreateTask from "../Modal/CreateTask.vue";
 import CreateColumn from "../Modal/CreateColumn.vue";
 
-const props = defineProps({
-  projectId: { type: String, required: true },
-});
+const props = defineProps<{ projectId: string }>();
 const state = reactive({ isActive: false });
 
 const handleNewTask = () => {

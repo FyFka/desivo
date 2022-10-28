@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { PropType } from "vue";
 import { useRoute } from "vue-router";
 import { MenuEnum } from "../../interfaces/IMenu";
 
-const props = defineProps({ menuRoute: { type: Number as PropType<MenuEnum>, required: true } });
+const props = defineProps<{ menuRoute: MenuEnum }>();
 
 const route = useRoute();
 </script>

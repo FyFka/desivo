@@ -2,9 +2,7 @@
 import { reactive } from "vue";
 import { createTask } from "../../api/tasks";
 
-const props = defineProps({
-  columnId: { type: String, required: true },
-});
+const props = defineProps<{ columnId: string }>();
 const state = reactive({ taskTitle: "", taskDescription: "" });
 const emit = defineEmits(["close"]);
 

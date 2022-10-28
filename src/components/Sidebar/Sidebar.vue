@@ -101,6 +101,7 @@ const handleJoinToProject = () => {
 .sidebar__item-img {
   width: 1.5rem;
   height: 1.5rem;
+  border-radius: 0.15rem;
 }
 .sidebar__control-img {
   width: 1.25rem;

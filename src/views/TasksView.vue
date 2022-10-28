@@ -2,7 +2,7 @@
 import ProjectLayout from "./Layouts/ProjectLayout.vue";
 import { MenuEnum } from "../interfaces/IMenu";
 import Column from "../components/Tasks/Column.vue";
-import { ITask, ITaskColumn } from "../interfaces/ITask";
+import { ITask, ITaskColumn, ITaskColumnRaw } from "../interfaces/ITask";
 import { onBeforeUnmount, onMounted, reactive } from "vue";
 import {
   requestColumns,
@@ -18,48 +18,63 @@ import Loader from "../components/Loader.vue";
 import NewColumn from "../components/Tasks/NewColumn.vue";
 import { useObservable } from "../hooks/useObservable";
 import { moveTasks } from "../api/tasks";
+import { IZippedColumns } from "../interfaces/IZippedColumns";
 
 interface ITasksState {
   columns: ITaskColumn[];
+  tasks: { [key: string]: ITask };
 }
 
 const route = useRoute();
-const state = reactive<ITasksState>({ columns: [] });
+const state = reactive<ITasksState>({ columns: [], tasks: {} });
 const { subscribe, unsubscribeFromAll } = useObservable();
 
-const handleColumns = (tasksColumns: IResponse<ITaskColumn[]>) => {
+const handleColumns = (tasksColumns: IResponse<ITaskColumnRaw[]>) => {
   if (tasksColumns.value) {
-    state.columns = tasksColumns.value;
+    tasksColumns.value.forEach(({ tasks, ...columnSlice }) => {
+      state.tasks = { ...state.tasks, ...tasks };
+      state.columns.push(columnSlice);
+    });
   }
 };
 
-const handleNewColumn = (newColumn: IResponse<ITaskColumn>) => {
+const handleNewColumn = (newColumn: IResponse<ITaskColumnRaw>) => {
   if (newColumn.value) {
-    state.columns.push(newColumn.value);
+    const { tasks, ...columnSlice } = newColumn.value;
+    state.columns.push(columnSlice);
+    state.tasks = { ...state.tasks, ...tasks };
   }
 };
 
 const handleNewTask = (newTask: IResponse<{ columnId: string; task: ITask }>) => {
   const value = newTask.value;
   if (value) {
-    const targetIndex = state.columns.findIndex((column) => column.id === value.columnId);
-    if (targetIndex !== -1) {
-      state.columns[targetIndex].tasks.push(value.task);
+    state.tasks[value.task.id] = value.task;
+    const targetColumn = state.columns.find((column) => column.id === value.columnId);
+    if (targetColumn) {
+      targetColumn.order.push(value.task.id);
     }
   }
 };
 
-const handleTaskDrop = () => {
+const handleReorderTasks = () => {
   const zippedColumns = state.columns.map((column) => ({
     columnId: column.id,
-    tasks: column.tasks.map((task) => task.id),
+    order: column.order,
   }));
   moveTasks(route.params.id.toString(), zippedColumns);
 };
 
-const handleMoveTasks = (tasksColumns: IResponse<ITaskColumn[]>) => {
+const handleMoveTasks = (tasksColumns: IResponse<IZippedColumns>) => {
   if (tasksColumns.value) {
-    state.columns = tasksColumns.value;
+    const newColumnsOrder = tasksColumns.value;
+    state.columns = state.columns.map((column) => {
+      const targetColumn = newColumnsOrder.find((columnSlice) => columnSlice.columnId === column.id);
+      if (targetColumn) {
+        return { ...column, order: targetColumn.order };
+      }
+      return column;
+    });
   }
 };
 
@@ -84,12 +99,13 @@ onBeforeUnmount(() => {
       <template v-if="state.columns.length !== 0">
         <Column
           v-for="tasksColumn of state.columns"
-          :tasks="tasksColumn.tasks"
+          :tasks="state.tasks"
+          :order="tasksColumn.order"
           :title="tasksColumn.title"
           :color="tasksColumn.color"
           :column-id="tasksColumn.id"
+          @reoder-tasks="handleReorderTasks"
           :key="tasksColumn.id"
-          @task-drop="handleTaskDrop"
         />
         <NewColumn :project-id="route.params.id.toString()" />
       </template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Control from "./Control.vue";
 
-const props = defineProps({
-  title: { type: String, required: true },
-  count: { type: Number, required: true },
-  color: { type: String, required: true },
-});
+const props = defineProps<{
+  title: string;
+  count: number;
+  color: string;
+}>();
 </script>
 
 <template>

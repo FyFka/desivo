@@ -14,6 +14,14 @@ export interface ITask {
 export interface ITaskColumn {
   id: string;
   color: string;
-  tasks: ITask[];
+  order: string[];
+  title: string;
+}
+
+export interface ITaskColumnRaw {
+  id: string;
+  color: string;
+  tasks: { [key: string]: ITask };
+  order: string[];
   title: string;
 }

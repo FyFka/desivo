@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { PropType } from "vue";
 import { MenuEnum } from "../../interfaces/IMenu";
 import Menu from "../../components/Menu/Menu.vue";
 import PageLayout from "./PageLayout.vue";
 
-const props = defineProps({ menuRoute: { type: Number as PropType<MenuEnum>, required: true } });
+const props = defineProps<{ menuRoute: MenuEnum }>();
 </script>
 
 <template>

@@ -2,23 +2,24 @@
 import NewTask from "./NewTask.vue";
 import Task from "./Task.vue";
 import ColumnTitle from "./ColumnTitle.vue";
-import { computed, PropType } from "vue";
+import { computed } from "vue";
 import { ITask } from "../../interfaces/ITask";
 import draggable from "vuedraggable";
 
-const props = defineProps({
-  title: { type: String, required: true },
-  columnId: { type: String, required: true },
-  color: { type: String, required: true },
-  tasks: { type: Array as PropType<ITask[]>, required: true },
-});
+const props = defineProps<{
+  title: string;
+  columnId: string;
+  color: string;
+  order: string[];
+  tasks: { [key: string]: ITask };
+}>();
 
-const emit = defineEmits(["task-drop"]);
+const emit = defineEmits(["reoder-tasks"]);
 
-const count = computed(() => props.tasks.length);
+const count = computed(() => props.order.length);
 
 const handleTaskDrop = () => {
-  emit("task-drop");
+  emit("reoder-tasks");
 };
 </script>
 
@@ -28,14 +29,19 @@ const handleTaskDrop = () => {
     <NewTask :column-id="props.columnId" />
     <draggable
       class="column__draggable-zone"
-      :list="props.tasks"
+      :list="props.order"
       itemKey="id"
       group="tasks-columns"
       ghost-class="task--moveable"
       @end="handleTaskDrop"
     >
       <template #item="{ element }">
-        <Task :id="element.id" :title="element.title" :description="element.description" :labels="element.labels" />
+        <Task
+          :id="props.tasks[element].id"
+          :title="props.tasks[element].title"
+          :description="props.tasks[element].description"
+          :labels="props.tasks[element].labels"
+        />
       </template>
     </draggable>
   </div>

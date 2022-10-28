@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
 
-const props = defineProps({ isActive: { type: Boolean, required: true } });
+const props = defineProps<{ isActive: boolean }>();
 const emit = defineEmits(["close"]);
 
 const handleClose = () => {

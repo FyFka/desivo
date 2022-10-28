@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const props = defineProps({
-  username: { type: String, required: true },
-  avatar: { type: String, required: true },
-  time: { type: String, required: true },
-  message: { type: String, required: true },
-});
+const props = defineProps<{ username: string; avatar: string; time: string; message: string }>();
 
 const messageRef = ref();
 

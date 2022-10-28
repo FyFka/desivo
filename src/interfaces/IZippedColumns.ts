@@ -1,1 +1,4 @@
-export type IZippedColumns = { columnId: string; tasks: string[] }[];
+export type IZippedColumns = {
+  columnId: string;
+  order: string[];
+}[];

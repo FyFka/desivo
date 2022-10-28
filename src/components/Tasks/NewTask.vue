@@ -3,9 +3,7 @@ import { reactive } from "vue";
 import Modal from "../Modal/Modal.vue";
 import CreateTask from "../Modal/CreateTask.vue";
 
-const props = defineProps({
-  columnId: { type: String, required: true },
-});
+const props = defineProps<{ columnId: string }>();
 const state = reactive({ isActive: false });
 
 const handleNewTask = () => {

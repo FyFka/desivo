@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { PropType } from "vue";
 import { ILabel } from "../../interfaces/ITask";
 import Control from "./Control.vue";
 
-const props = defineProps({
-  id: { type: String, required: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  labels: { type: Array as PropType<ILabel[]>, required: true },
-});
+const props = defineProps<{
+  id: string;
+  title: string;
+  description: string;
+  labels: ILabel[];
+}>();
 </script>
 
 <template>
