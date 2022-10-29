@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import { ILabel } from "../../interfaces/ITask";
+import Modal from "../Modal/Modal.vue";
+import DeleteVue from "../Modal/Delete.vue";
 import Control from "./Control.vue";
+import { reactive } from "vue";
+import { deleteTask } from "../../api/tasks";
 
 const props = defineProps<{
   id: string;
   title: string;
   description: string;
   labels: ILabel[];
+  columnId: string;
 }>();
+
+const state = reactive({ isModalActive: false });
+
+const handleDelete = () => {
+  deleteTask(props.columnId, props.id);
+};
+
+const handleDeleteConfirm = () => {
+  state.isModalActive = true;
+};
 </script>
 
 <template>
@@ -24,7 +39,9 @@ const props = defineProps<{
             {{ label.name }}
           </div>
         </div>
-        <Control />
+        <Control>
+          <button @click="handleDeleteConfirm">Delete</button>
+        </Control>
       </div>
       <div class="task__info">
         <h2 class="task__title">{{ props.title }}</h2>
@@ -34,6 +51,9 @@ const props = defineProps<{
       </div>
     </div>
     <div class="task__additional-info"></div>
+    <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
+      <DeleteVue :confirm="handleDelete" :title="props.title" @close="state.isModalActive = false" />
+    </Modal>
   </div>
 </template>
 

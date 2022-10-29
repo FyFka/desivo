@@ -1,11 +1,26 @@
 <script setup lang="ts">
+import { reactive } from "vue";
+import Modal from "../Modal/Modal.vue";
+import DeleteVue from "../Modal/Delete.vue";
 import Control from "./Control.vue";
+import { deleteColumn } from "../../api/tasks";
 
 const props = defineProps<{
   title: string;
   count: number;
   color: string;
+  columnId: string;
 }>();
+
+const state = reactive({ isModalActive: false });
+
+const handleDelete = () => {
+  deleteColumn(props.columnId);
+};
+
+const handleDeleteConfirm = () => {
+  state.isModalActive = true;
+};
 </script>
 
 <template>
@@ -14,8 +29,13 @@ const props = defineProps<{
       <span class="column-title__color" :style="{ 'background-color': props.color }"></span>
       {{ props.title }} <span class="column-title__column-count">{{ props.count }}</span>
     </h2>
-    <Control />
+    <Control>
+      <button @click="handleDeleteConfirm">Delete</button>
+    </Control>
   </div>
+  <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
+    <DeleteVue :confirm="handleDelete" :title="props.title" @close="state.isModalActive = false" />
+  </Modal>
 </template>
 
 <style scoped>

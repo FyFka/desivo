@@ -2,6 +2,7 @@
 import { reactive } from "vue";
 
 const state = reactive({ isControlOpen: false });
+
 const handleControlOpen = () => {
   state.isControlOpen = !state.isControlOpen;
 };
@@ -46,7 +47,9 @@ const handleControlOpen = () => {
       </svg>
     </button>
     <ul class="control__menu" v-if="state.isControlOpen">
-      <li class="control__item"><button>Delete</button></li>
+      <li class="control__item">
+        <slot />
+      </li>
     </ul>
   </div>
 </template>

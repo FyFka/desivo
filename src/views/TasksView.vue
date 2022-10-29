@@ -11,6 +11,8 @@ import {
   subscribeToNewTask,
   subscribeToTasks,
   subscribeToMoveTasks,
+  subscribeToDeleteColumn,
+  subscribeToDeleteTask,
 } from "../api/tasks";
 import { useRoute } from "vue-router";
 import { IResponse } from "../interfaces/IResponse";
@@ -23,10 +25,11 @@ import { IZippedColumns } from "../interfaces/IZippedColumns";
 interface ITasksState {
   columns: ITaskColumn[];
   tasks: { [key: string]: ITask };
+  loading: boolean;
 }
 
 const route = useRoute();
-const state = reactive<ITasksState>({ columns: [], tasks: {} });
+const state = reactive<ITasksState>({ columns: [], tasks: {}, loading: true });
 const { subscribe, unsubscribeFromAll } = useObservable();
 
 const handleColumns = (tasksColumns: IResponse<ITaskColumnRaw[]>) => {
@@ -36,6 +39,7 @@ const handleColumns = (tasksColumns: IResponse<ITaskColumnRaw[]>) => {
       state.columns.push(columnSlice);
     });
   }
+  state.loading = false;
 };
 
 const handleNewColumn = (newColumn: IResponse<ITaskColumnRaw>) => {
@@ -78,12 +82,38 @@ const handleMoveTasks = (tasksColumns: IResponse<IZippedColumns>) => {
   }
 };
 
+const handleDeleteTask = (deletedTask: IResponse<{ columnId: string; taskId: string }>) => {
+  if (deletedTask.value) {
+    const { columnId, taskId } = deletedTask.value;
+    const targetColumn = state.columns.find((column) => column.id === columnId);
+    if (targetColumn) {
+      targetColumn.order = targetColumn.order.filter((id) => id !== taskId);
+    }
+    delete state.tasks[taskId];
+  }
+};
+
+const handleDeleteColumn = (deletedColumn: IResponse<{ columnId: string }>) => {
+  if (deletedColumn.value) {
+    const columnId = deletedColumn.value.columnId;
+    const tasksChain = state.columns.find((column) => column.id === columnId)?.order;
+    state.columns = state.columns.filter((column) => column.id !== columnId);
+    if (tasksChain) {
+      tasksChain.forEach((taskId) => {
+        delete state.tasks[taskId];
+      });
+    }
+  }
+};
+
 onMounted(() => {
   subscribe(subscribeToTasks(route.params.id.toString()));
   subscribe(subscribeToColumns(handleColumns));
   subscribe(subscribeToNewColumn(handleNewColumn));
   subscribe(subscribeToNewTask(handleNewTask));
   subscribe(subscribeToMoveTasks(handleMoveTasks));
+  subscribe(subscribeToDeleteColumn(handleDeleteColumn));
+  subscribe(subscribeToDeleteTask(handleDeleteTask));
 
   requestColumns(route.params.id.toString());
 });
@@ -96,7 +126,7 @@ onBeforeUnmount(() => {
 <template>
   <ProjectLayout :menu-route="MenuEnum.TASKS">
     <div class="tasks">
-      <template v-if="state.columns.length !== 0">
+      <template v-if="!state.loading">
         <Column
           v-for="tasksColumn of state.columns"
           :tasks="state.tasks"

@@ -53,6 +53,7 @@ const handleMinimize = () => {
   justify-content: space-between;
   align-items: center;
   height: 1.5rem;
+  z-index: 9999;
   background-color: var(--the-darkest-color);
 }
 .frame__app-name {

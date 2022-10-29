@@ -23,6 +23,14 @@ export const createColumn = (projectId: string, name: string, color: string) => 
   dispatchExternalEvent("tasks:create-column", { projectId, name, color });
 };
 
+export const deleteColumn = (columnId: string) => {
+  dispatchExternalEvent("tasks:delete-column", { columnId });
+};
+
+export const deleteTask = (columnId: string, taskId: string) => {
+  dispatchExternalEvent("tasks:delete-task", { taskId, columnId });
+};
+
 export const moveTasks = (projectId: string, zippedColumns: IZippedColumns) => {
   dispatchExternalEvent("tasks:move-tasks", { projectId, zippedColumns });
 };
@@ -32,6 +40,24 @@ export const subscribeToMoveTasks = (callback: (columns: IResponse<IZippedColumn
 
   return () => {
     unsubscribeFromMoveTasksEvt();
+  };
+};
+
+export const subscribeToDeleteTask = (
+  callback: (deletedTask: IResponse<{ columnId: string; taskId: string }>) => void
+) => {
+  const unsubscribeFromDeleteTaskEvt = onExternalEvent("tasks:task-deleted", callback);
+
+  return () => {
+    unsubscribeFromDeleteTaskEvt();
+  };
+};
+
+export const subscribeToDeleteColumn = (callback: (deletedColumn: IResponse<{ columnId: string }>) => void) => {
+  const unsubscribeFromDeleteColumnEvt = onExternalEvent("tasks:column-deleted", callback);
+
+  return () => {
+    unsubscribeFromDeleteColumnEvt();
   };
 };
 

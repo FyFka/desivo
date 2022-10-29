@@ -4,7 +4,7 @@ import Task from "./Task.vue";
 import ColumnTitle from "./ColumnTitle.vue";
 import { computed } from "vue";
 import { ITask } from "../../interfaces/ITask";
-import draggable from "vuedraggable";
+import Draggable from "vuedraggable";
 
 const props = defineProps<{
   title: string;
@@ -25,9 +25,9 @@ const handleTaskDrop = () => {
 
 <template>
   <div class="column">
-    <ColumnTitle :title="props.title" :count="count" :color="props.color" />
+    <ColumnTitle :title="props.title" :count="count" :color="props.color" :column-id="props.columnId" />
     <NewTask :column-id="props.columnId" />
-    <draggable
+    <Draggable
       class="column__draggable-zone"
       :list="props.order"
       itemKey="id"
@@ -41,9 +41,10 @@ const handleTaskDrop = () => {
           :title="props.tasks[element].title"
           :description="props.tasks[element].description"
           :labels="props.tasks[element].labels"
+          :column-id="props.columnId"
         />
       </template>
-    </draggable>
+    </Draggable>
   </div>
 </template>
 

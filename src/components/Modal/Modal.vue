@@ -46,6 +46,7 @@ onBeforeUnmount(() => {
   left: 0;
   height: calc(100vh - 1.5rem);
   width: 100%;
+  z-index: 7999;
   background: rgba(79, 100, 158, 0.8);
 }
 
