@@ -3,8 +3,10 @@ import ProjectLayout from "./Layouts/ProjectLayout.vue";
 import { MenuEnum } from "../interfaces/IMenu";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
+import { useToast } from "vue-toastification";
 
 const route = useRoute();
+const toast = useToast();
 const shareRef = ref();
 
 const copyToClipboard = (element: HTMLInputElement) => {
@@ -14,6 +16,7 @@ const copyToClipboard = (element: HTMLInputElement) => {
 const handleShare = () => {
   shareRef.value.select();
   copyToClipboard(shareRef.value as HTMLInputElement);
+  toast.success("Project id copied to clipboard!");
 };
 </script>
 

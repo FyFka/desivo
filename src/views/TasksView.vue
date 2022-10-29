@@ -21,6 +21,7 @@ import NewColumn from "../components/Tasks/NewColumn.vue";
 import { useObservable } from "../hooks/useObservable";
 import { moveTasks } from "../api/tasks";
 import { IZippedColumns } from "../interfaces/IZippedColumns";
+import { useToast } from "vue-toastification";
 
 interface ITasksState {
   columns: ITaskColumn[];
@@ -29,6 +30,7 @@ interface ITasksState {
 }
 
 const route = useRoute();
+const toast = useToast();
 const state = reactive<ITasksState>({ columns: [], tasks: {}, loading: true });
 const { subscribe, unsubscribeFromAll } = useObservable();
 
@@ -38,6 +40,8 @@ const handleColumns = (tasksColumns: IResponse<ITaskColumnRaw[]>) => {
       state.tasks = { ...state.tasks, ...tasks };
       state.columns.push(columnSlice);
     });
+  } else if (tasksColumns.message) {
+    toast.error(tasksColumns.message);
   }
   state.loading = false;
 };
@@ -47,17 +51,21 @@ const handleNewColumn = (newColumn: IResponse<ITaskColumnRaw>) => {
     const { tasks, ...columnSlice } = newColumn.value;
     state.columns.push(columnSlice);
     state.tasks = { ...state.tasks, ...tasks };
+  } else if (newColumn.message) {
+    toast.error(newColumn.message);
   }
 };
 
 const handleNewTask = (newTask: IResponse<{ columnId: string; task: ITask }>) => {
-  const value = newTask.value;
-  if (value) {
+  if (newTask.value) {
+    const value = newTask.value;
     state.tasks[value.task.id] = value.task;
     const targetColumn = state.columns.find((column) => column.id === value.columnId);
     if (targetColumn) {
       targetColumn.order.push(value.task.id);
     }
+  } else if (newTask.message) {
+    toast.error(newTask.message);
   }
 };
 
@@ -79,6 +87,8 @@ const handleMoveTasks = (tasksColumns: IResponse<IZippedColumns>) => {
       }
       return column;
     });
+  } else if (tasksColumns.message) {
+    toast.error(tasksColumns.message);
   }
 };
 
@@ -90,6 +100,8 @@ const handleDeleteTask = (deletedTask: IResponse<{ columnId: string; taskId: str
       targetColumn.order = targetColumn.order.filter((id) => id !== taskId);
     }
     delete state.tasks[taskId];
+  } else if (deletedTask.message) {
+    toast.error(deletedTask.message);
   }
 };
 
@@ -103,6 +115,8 @@ const handleDeleteColumn = (deletedColumn: IResponse<{ columnId: string }>) => {
         delete state.tasks[taskId];
       });
     }
+  } else if (deletedColumn.message) {
+    toast.error(deletedColumn.message);
   }
 };
 

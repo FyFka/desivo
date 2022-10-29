@@ -14,6 +14,7 @@ import Message from "./Message.vue";
 import Loader from "../Loader.vue";
 import { HISTORY_SKIP_COUNT } from "../../constants";
 import { useObservable } from "../../hooks/useObservable";
+import { useToast } from "vue-toastification";
 
 interface IDiscussionHistoryState {
   discussionHistory: IMessage[];
@@ -30,6 +31,7 @@ const state = reactive<IDiscussionHistoryState>({
 });
 
 const route = useRoute();
+const toast = useToast();
 const { subscribe, unsubscribeFromAll } = useObservable();
 const messagesRef = ref();
 
@@ -47,12 +49,16 @@ const handleHistory = (discussionHistory: IResponse<IMessageRaw[]>) => {
       time: new Date(message.timestamp).toLocaleString(),
     }));
     state.discussionHistory = [...discussionHistorySlice, ...state.discussionHistory];
+  } else if (discussionHistory.message) {
+    toast.error(discussionHistory.message);
   }
 };
 
 const handleHistoryEnd = (isHistoryEnd: IResponse<boolean>) => {
   if (isHistoryEnd.value) {
     state.historyEnd = true;
+  } else if (isHistoryEnd.message) {
+    toast.error(isHistoryEnd.message);
   }
 };
 
@@ -62,6 +68,8 @@ const handleNewMessage = (newMessage: IResponse<IMessageRaw>) => {
       ...newMessage.value,
       time: new Date(newMessage.value.timestamp).toLocaleString(),
     });
+  } else if (newMessage.message) {
+    toast.error(newMessage.message);
   }
 };
 

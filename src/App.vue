@@ -9,6 +9,7 @@ import { subscribeToReconnection } from "./api/connection";
 import { registerConnection } from "./api/user";
 import { useStore } from "./hooks/useStore";
 import { useObservable } from "./hooks/useObservable";
+import "vue-toastification/dist/index.css";
 
 const { loginByToken, logout } = useUser();
 const { refreshProjects } = useProjects();

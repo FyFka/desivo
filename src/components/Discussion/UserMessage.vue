@@ -7,6 +7,7 @@ const state = reactive({ message: "" });
 const route = useRoute();
 
 const handleSubmitMessage = () => {
+  if (state.message.trim() === "") return;
   sendMessage(state.message, route.params.id.toString());
   state.message = "";
 };
