@@ -1,4 +1,3 @@
-import { computed } from "vue";
 import { createProject, getAllProjects, joinProject } from "../api/project";
 import { useStore } from "./useStore";
 
@@ -31,7 +30,5 @@ export const useProjects = () => {
     }
   };
 
-  const projects = computed(() => store.state.projects);
-
-  return { refreshProjects, addProject, projects, joinToProject };
+  return { refreshProjects, addProject, joinToProject };
 };

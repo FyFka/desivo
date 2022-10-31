@@ -5,14 +5,15 @@ import CreateProject from "../Modal/CreateProject.vue";
 import { useProjects } from "../../hooks/useProjects";
 import { useModal } from "../../hooks/useModal";
 import JoinProject from "../Modal/JoinProject.vue";
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
+import { useStore } from "../../hooks/useStore";
 
 enum ModalType {
   JOIN_PROJECT,
   CREATE_PROJECT,
 }
 
-const { projects } = useProjects();
+const store = useStore();
 const state = reactive({ modalType: ModalType.CREATE_PROJECT });
 const [isCreateProjectOpen, toggleModal] = useModal();
 
@@ -25,6 +26,8 @@ const handleJoinToProject = () => {
   state.modalType = ModalType.JOIN_PROJECT;
   toggleModal(true);
 };
+
+const projects = computed(() => store.state.projects);
 </script>
 
 <template>

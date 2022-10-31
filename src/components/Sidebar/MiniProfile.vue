@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { useUser } from "../../hooks/useUser";
+import { computed } from "vue";
+import { useAuth } from "../../hooks/useAuth";
+import { useStore } from "../../hooks/useStore";
 
-const { user, logout } = useUser();
+const { logout } = useAuth();
+const store = useStore();
 
 const handleLogout = () => {
   logout();
 };
+
+const user = computed(() => store.state.user);
 </script>
 
 <template>
   <div class="mini-profile">
-    <button class="mini-profile__profile-container" v-bind:title="user?.username">
+    <RouterLink
+      class="mini-profile__profile-container"
+      :to="`/profile/${user?.username}`"
+      v-bind:title="user?.username"
+    >
       <h4 class="mini-profile__title">Profile</h4>
       <img class="mini-profile__avatar" v-bind:src="user?.avatar" alt="avatar" />
-    </button>
+    </RouterLink>
     <button @click="handleLogout" class="mini-profile__logout" title="logout">
       <img class="mini-profile__logout-img" src="../../assets/logout.svg" alt="logout" />
     </button>
@@ -22,6 +31,7 @@ const handleLogout = () => {
 
 <style scoped>
 .mini-profile__profile-container {
+  display: block;
   width: 100%;
   padding: 0;
   margin-bottom: 0.5rem;

@@ -17,6 +17,7 @@ import Sidebar from "../../components/Sidebar/Sidebar.vue";
   display: flex;
 }
 .page-layout__content {
+  position: relative;
   width: calc(100% - 4.5rem);
   height: 100%;
 }

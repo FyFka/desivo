@@ -27,6 +27,19 @@ export const store = createStore<IAppStore>({
     setUser(state, user: IUser | null) {
       state.user = user;
     },
+    setAvatar(state, avatarUrl: string) {
+      if (state.user) {
+        console.log("av change");
+        state.user.avatar = avatarUrl;
+      }
+    },
+    setProfile(state, profile: { name: string; secondName: string; username: string }) {
+      if (state.user) {
+        state.user.name = profile.name;
+        state.user.secondName = profile.secondName;
+        state.user.username = profile.username;
+      }
+    },
     setToken(state, token: string) {
       state.token = token;
     },

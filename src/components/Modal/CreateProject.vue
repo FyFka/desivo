@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { useProjects } from "../../hooks/useProjects";
+import { useImageReader } from "../../hooks/useImageReader";
 
 const state = reactive({ name: "", image: "", imageName: "", error: "" });
 const uploadImageRef = ref();
 const { addProject } = useProjects();
+const { readImage } = useImageReader(handleReadedImage);
 const emit = defineEmits(["close"]);
 
 const handleCreateProject = async () => {
@@ -20,27 +22,17 @@ const delegateEvent = () => {
   uploadImageRef.value.click();
 };
 
-const uploadImageToBlob = (image: File) => {
-  const reader = new FileReader();
-  reader.onload = () => {
-    if (reader.result) {
-      state.image = reader.result.toString();
-      state.imageName = image.name;
-    }
-  };
-
-  reader.readAsDataURL(image);
-};
+function handleReadedImage(error: string | null, image: string, name: string) {
+  if (error) {
+    state.error = error;
+  } else {
+    state.image = image;
+    state.imageName = name;
+  }
+}
 
 const handleImageUpload = async (evt: Event) => {
-  const pattern = /image*/;
-  const file = (evt.target as HTMLInputElement).files![0];
-  if (!file.type.match(pattern)) {
-    state.error = "Invalid image format";
-    return;
-  }
-
-  uploadImageToBlob(file);
+  readImage((evt.target as HTMLInputElement).files);
 };
 </script>
 

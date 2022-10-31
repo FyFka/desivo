@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive } from "vue";
-import { useUser } from "../hooks/useUser";
+import { useAuth } from "../hooks/useAuth";
 
 const state = reactive({ username: "", password: "", error: "" });
-const { loginByAuth } = useUser();
+const { loginByAuth } = useAuth();
 
 const handleLogin = async () => {
   const loginResult = await loginByAuth(state.username, state.password);

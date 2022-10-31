@@ -2,7 +2,6 @@
 import VueFrame from "./components/Frame.vue";
 import Loader from "./components/Loader.vue";
 import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
-import { useUser } from "./hooks/useUser";
 import { useProjects } from "./hooks/useProjects";
 import { useRoute } from "vue-router";
 import { subscribeToReconnection } from "./api/connection";
@@ -10,8 +9,9 @@ import { registerConnection } from "./api/user";
 import { useStore } from "./hooks/useStore";
 import { useObservable } from "./hooks/useObservable";
 import "vue-toastification/dist/index.css";
+import { useAuth } from "./hooks/useAuth";
 
-const { loginByToken, logout } = useUser();
+const { loginByToken, logout } = useAuth();
 const { refreshProjects } = useProjects();
 const route = useRoute();
 const store = useStore();
