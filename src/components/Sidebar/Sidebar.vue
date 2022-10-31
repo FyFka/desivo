@@ -2,7 +2,6 @@
 import MiniProfile from "./MiniProfile.vue";
 import Modal from "../Modal/Modal.vue";
 import CreateProject from "../Modal/CreateProject.vue";
-import { useProjects } from "../../hooks/useProjects";
 import { useModal } from "../../hooks/useModal";
 import JoinProject from "../Modal/JoinProject.vue";
 import { computed, reactive } from "vue";

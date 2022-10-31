@@ -6,14 +6,14 @@ export const useProjects = () => {
 
   const refreshProjects = async () => {
     if (!store.state.token) return;
-    const projects = await getAllProjects(store.state.token);
+    const projects = await getAllProjects();
     if (Array.isArray(projects.value)) {
       store.commit("setProjects", projects.value);
     }
   };
 
   const addProject = async (name: string, image: string) => {
-    const createProjResp = await createProject(name, image, store.state.token);
+    const createProjResp = await createProject(name, image);
     if (createProjResp.value) {
       store.commit("addProject", createProjResp.value);
     } else {
@@ -22,7 +22,7 @@ export const useProjects = () => {
   };
 
   const joinToProject = async (projectId: string) => {
-    const joinProjResp = await joinProject(projectId, store.state.token);
+    const joinProjResp = await joinProject(projectId);
     if (joinProjResp.value) {
       store.commit("addProject", joinProjResp.value);
     } else {

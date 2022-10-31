@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { createUser, getUserByAuth, getUserByToken, registerConnection } from "../api/user";
 import { IUser } from "../interfaces/IUser";
 import { getFromAppStorage, setToAppStorage } from "../utils/appStorage";
+import { serverRequest } from "../utils/request";
 import { useStore } from "./useStore";
 
 export const useAuth = () => {
@@ -12,6 +13,7 @@ export const useAuth = () => {
   const _saveUser = (user: IUser, token: string) => {
     store.commit("setUser", user);
     store.commit("setToken", token);
+    serverRequest.defaults.headers.Authorization = `Bearer ${token}`;
     registerConnection(token);
   };
 

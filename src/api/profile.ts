@@ -1,6 +1,6 @@
 import { IProject } from "../interfaces/IProject";
 import { IResponse } from "../interfaces/IResponse";
-import { IUser } from "../interfaces/IUser";
+import { IUser, IUserProfile } from "../interfaces/IUser";
 import { serverRequest } from "../utils/request";
 
 export const getUserByUsername = async (username: string) => {
@@ -21,26 +21,18 @@ export const getUserProjectsByUsername = async (username: string) => {
   }
 };
 
-export const changeProfileAvatar = async (avatar: string, token: string) => {
+export const changeProfileAvatar = async (avatar: string) => {
   try {
-    const req = await serverRequest.post<IResponse<string>>(
-      "/user/change/avatar",
-      { avatar },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const req = await serverRequest.post<IResponse<string>>("/user/change/avatar", { avatar });
     return req.data;
   } catch (err) {
     return { message: err instanceof Error ? err.message : "Unknown network error" };
   }
 };
 
-export const changeUserProfile = async (name: string, secondName: string, username: string, token: string) => {
+export const changeUserProfile = async (userProfile: IUserProfile) => {
   try {
-    const req = await serverRequest.post<IResponse<{ name: string; secondName: string; username: string }>>(
-      "/user/change/profile",
-      { name, secondName, username },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const req = await serverRequest.post<IResponse<IUserProfile>>("/user/change/profile", userProfile);
     return req.data;
   } catch (err) {
     return { message: err instanceof Error ? err.message : "Unknown network error" };

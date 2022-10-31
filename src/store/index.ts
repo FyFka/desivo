@@ -1,7 +1,7 @@
 import { InjectionKey } from "vue";
 import { createStore, Store } from "vuex";
 import { IProject } from "../interfaces/IProject";
-import { IUser } from "../interfaces/IUser";
+import { IUser, IUserProfile } from "../interfaces/IUser";
 
 export interface IAppStore {
   user: IUser | null;
@@ -27,13 +27,12 @@ export const store = createStore<IAppStore>({
     setUser(state, user: IUser | null) {
       state.user = user;
     },
-    setAvatar(state, avatarUrl: string) {
+    setAvatar(state, avatar: string) {
       if (state.user) {
-        console.log("av change");
-        state.user.avatar = avatarUrl;
+        state.user.avatar = avatar;
       }
     },
-    setProfile(state, profile: { name: string; secondName: string; username: string }) {
+    setProfile(state, profile: IUserProfile) {
       if (state.user) {
         state.user.name = profile.name;
         state.user.secondName = profile.secondName;

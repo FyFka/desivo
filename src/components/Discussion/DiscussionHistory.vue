@@ -86,7 +86,6 @@ onMounted(() => {
   subscribe(subscribeToMessagesHistory(handleHistory));
   subscribe(subscribeToHistoryEnd(handleHistoryEnd));
   subscribe(subscribeToDiscussion(route.params.id.toString()));
-
   requestMessagesHistory(route.params.id.toString(), state.historySkip);
 });
 

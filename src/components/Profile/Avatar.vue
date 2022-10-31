@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useToast } from "vue-toastification";
 import { useImageReader } from "../../hooks/useImageReader";
 
-const props = defineProps<{ editable: boolean; avatar: string; changeAvatar: (newAvatar: string) => Promise<void> }>();
+const props = defineProps<{ editable: boolean; avatar: string; updateAvatar: (newAvatar: string) => Promise<void> }>();
 const uploadAvatarRef = ref();
 const toast = useToast();
 const { readImage } = useImageReader(handleReadedImage);
@@ -14,15 +14,15 @@ const delegateEvent = () => {
   }
 };
 
-async function handleReadedImage(error: string | null, image: string, name: string) {
+async function handleReadedImage(error: string | null, image: string) {
   if (error) {
     toast.error(error);
   } else {
-    props.changeAvatar(image);
+    props.updateAvatar(image);
   }
 }
 
-const handleAvatarUpload = async (evt: Event) => {
+const handleAvatarRead = async (evt: Event) => {
   readImage((evt.target as HTMLInputElement).files);
 };
 </script>
@@ -30,13 +30,12 @@ const handleAvatarUpload = async (evt: Event) => {
 <template>
   <button class="avatar" :class="{ edit: !props.editable }" @click="delegateEvent">
     <input
-      id="avatar[image]"
       tabindex="-1"
       ref="uploadAvatarRef"
       type="file"
       class="avatar__upload--hidden"
       accept="image/*"
-      @change="handleAvatarUpload"
+      @change="handleAvatarRead"
     />
     <div class="avatar__edit">
       <h4 class="avatar__edit-title">Edit avatar</h4>
@@ -54,7 +53,7 @@ const handleAvatarUpload = async (evt: Event) => {
   opacity: 0;
   width: 100%;
   height: 100%;
-  background-color: #101213cb;
+  background-color: rgba(16, 18, 19, 0.796);
   transition: opacity 0.25s;
 }
 .avatar__edit-title {

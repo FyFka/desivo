@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
+import { IUserProfile } from "../../interfaces/IUser";
 
 const props = defineProps<{
   editable: boolean;
   name: string;
   secondName: string;
   username: string;
-  changeProfile: (name: string, secondName: string, username: string) => Promise<void>;
+  updateProfile: (newProfile: IUserProfile) => Promise<void>;
 }>();
 
 const state = reactive({
@@ -16,10 +17,10 @@ const state = reactive({
 });
 
 const handleUpdateProfile = () => {
-  props.changeProfile(state.name, state.secondName, state.username);
+  props.updateProfile({ name: state.name, secondName: state.secondName, username: state.username });
 };
 
-const isSmthChanged = computed(
+const isProfileChanged = computed(
   () => state.name !== props.name || state.secondName !== props.secondName || state.username !== props.username
 );
 </script>
@@ -32,7 +33,7 @@ const isSmthChanged = computed(
         <input class="user__info" type="text" v-model="state.secondName" placeholder="Second Name" />
       </div>
       <input class="user__info" type="text" v-model="state.username" placeholder="Nickname" />
-      <button class="user__info-upd" v-if="isSmthChanged" @click="handleUpdateProfile">Update</button>
+      <button class="user__info-upd" v-if="isProfileChanged" @click="handleUpdateProfile">Update</button>
     </template>
     <template v-else>
       <div class="user__row">
