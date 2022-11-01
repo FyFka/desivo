@@ -15,13 +15,14 @@ import { useToast } from "vue-toastification";
 interface IProfileState {
   user: IUser | null;
   projects: IProject[];
+  isProfileChanged: boolean;
 }
 
 const store = useStore();
 const route = useRoute();
 const toast = useToast();
-const state = reactive<IProfileState>({ user: null, projects: [] });
-const isOwnerProfile = computed(() => store.state.user?.username === route.params.username);
+const state = reactive<IProfileState>({ user: null, projects: [], isProfileChanged: false });
+const isOwnerProfile = computed(() => store.state.user?.username === route.params.username || state.isProfileChanged);
 
 const getUser = async () => {
   const user = await getUserByUsername(route.params.username.toString());
@@ -58,6 +59,7 @@ const updateProfile = async (newProfile: IUserProfile) => {
     const { name, secondName, username } = profile.value;
     store.commit("setProfile", profile.value);
     state.user = { ...state.user!, name, secondName, username };
+    state.isProfileChanged = true;
     toast.success("Profile changed!");
   } else if (profile.message) {
     toast.error(profile.message);

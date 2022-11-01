@@ -5,6 +5,7 @@ import ColumnTitle from "./ColumnTitle.vue";
 import { computed } from "vue";
 import { ITask } from "../../interfaces/ITask";
 import Draggable from "vuedraggable";
+import { SortableEvent } from "sortablejs";
 
 const props = defineProps<{
   title: string;
@@ -18,7 +19,8 @@ const emit = defineEmits(["reoder-tasks"]);
 
 const count = computed(() => props.order.length);
 
-const handleTaskDrop = () => {
+const handleTaskDrop = (evt: SortableEvent) => {
+  if (evt.oldIndex === evt.newIndex && evt.to === evt.from) return;
   emit("reoder-tasks");
 };
 </script>
@@ -33,6 +35,7 @@ const handleTaskDrop = () => {
       itemKey="id"
       group="tasks-columns"
       ghost-class="task--moveable"
+      handle=".handle"
       @end="handleTaskDrop"
     >
       <template #item="{ element }">

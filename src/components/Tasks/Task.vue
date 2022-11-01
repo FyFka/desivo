@@ -50,7 +50,7 @@ const handleDeleteConfirm = () => {
         </p>
       </div>
     </div>
-    <div class="task__additional-info"></div>
+    <div class="task__additional-info handle"></div>
     <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
       <DeleteVue :confirm="handleDelete" :title="props.title" @close="state.isModalActive = false" />
     </Modal>
@@ -62,7 +62,6 @@ const handleDeleteConfirm = () => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  cursor: move;
 }
 .task__wrapper {
   background-color: #1d1f20;
@@ -75,6 +74,9 @@ const handleDeleteConfirm = () => {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   background-color: #1d1f20;
+}
+.handle {
+  cursor: move;
 }
 .task__labels {
   display: flex;

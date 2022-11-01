@@ -22,7 +22,6 @@ const props = defineProps<{ image: string; name: string }>();
   background-color: var(--secondary-color);
   border-radius: 0.5rem;
 }
-
 .project:hover .project__info {
   opacity: 1;
 }
@@ -38,9 +37,15 @@ const props = defineProps<{ image: string; name: string }>();
   justify-content: center;
   opacity: 0;
   position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
   width: 100%;
-  background-color: #101213cb;
+  background-color: rgba(16, 18, 19, 0.8);
   transition: opacity 0.25s;
+}
+.project__title {
+  font-size: 1.25rem;
+  user-select: none;
 }
 </style>

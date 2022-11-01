@@ -6,6 +6,7 @@ import { useModal } from "../../hooks/useModal";
 import JoinProject from "../Modal/JoinProject.vue";
 import { computed, reactive } from "vue";
 import { useStore } from "../../hooks/useStore";
+import MiniProject from "./MiniProject.vue";
 
 enum ModalType {
   JOIN_PROJECT,
@@ -35,17 +36,15 @@ const projects = computed(() => store.state.projects);
       <h4 class="sidebar__menu-title">Sidebar</h4>
       <ul class="sidebar__list">
         <li v-for="project in projects" :key="project.id" class="sidebar__item">
-          <RouterLink class="sidebar__control" :to="`/project/${project.id}/tasks`" :title="project.name">
-            <img class="sidebar__item-img" v-bind:src="project.image" />
-          </RouterLink>
+          <MiniProject :id="project.id" :image="project.image" :name="project.name" />
         </li>
         <li class="sidebar__item">
-          <button @click="handleCreateProject" class="sidebar__control" title="create project">
+          <button @click="handleCreateProject" class="sidebar__control">
             <img class="sidebar__control-img" src="../../assets/new-project.svg" />
           </button>
         </li>
         <li class="sidebar__item">
-          <button @click="handleJoinToProject" class="sidebar__control" title="join to project">
+          <button @click="handleJoinToProject" class="sidebar__control">
             <img class="sidebar__control-img" src="../../assets/join-project.svg" />
           </button>
         </li>
@@ -100,10 +99,8 @@ const projects = computed(() => store.state.projects);
 .sidebar__control:hover {
   background-color: var(--secondary-color);
 }
-.sidebar__item-img {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 0.15rem;
+.sidebar__control:hover > .prompt {
+  display: block;
 }
 .sidebar__control-img {
   width: 1.25rem;
