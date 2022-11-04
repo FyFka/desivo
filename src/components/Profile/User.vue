@@ -29,10 +29,10 @@ const isProfileChanged = computed(
   <div class="user">
     <template v-if="props.editable">
       <div class="user__row">
-        <input class="user__info" type="text" v-model="state.name" placeholder="Name" />
-        <input class="user__info" type="text" v-model="state.secondName" placeholder="Second Name" />
+        <input class="user__info" v-model="state.name" placeholder="Name" />
+        <input class="user__info" v-model="state.secondName" placeholder="Second Name" />
       </div>
-      <input class="user__info" type="text" v-model="state.username" placeholder="Nickname" />
+      <input class="user__info" v-model="state.username" placeholder="Nickname" />
       <button class="user__info-upd" v-if="isProfileChanged" @click="handleUpdateProfile">Update</button>
     </template>
     <template v-else>
@@ -65,7 +65,7 @@ const isProfileChanged = computed(
   right: 0;
   width: 100%;
   z-index: 100;
-  box-shadow: 0 0.25rem 0.5rem 0.125rem #1012137a;
+  box-shadow: 0 0.25rem 0.5rem 0.125rem rgba(16, 18, 19, 0.478);
   background-color: var(--highlight-color);
 }
 .user__info--username {

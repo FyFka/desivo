@@ -1,6 +1,6 @@
 <template>
   <div class="loader">
-    <svg class="loader__container" width="100px" height="100px" viewBox="-3 -4 39 39">
+    <svg class="loader__container" width="6.25rem" height="6.25rem" viewBox="-3 -4 39 39">
       <polygon
         class="loader__triangle"
         fill="transparent"

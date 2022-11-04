@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ILabel } from "../../interfaces/ITask";
-import Modal from "../Modal/Modal.vue";
 import DeleteVue from "../Modal/Delete.vue";
 import Dropdown from "../Dropdown.vue";
-import { reactive } from "vue";
 import { deleteTask } from "../../api/tasks";
 import SelectedTask from "../Modal/SelectedTask.vue";
 import Label from "./Label.vue";
+import { useModal } from "../../hooks/useModal";
 
 const props = defineProps<{
   id: string;
@@ -16,32 +15,36 @@ const props = defineProps<{
   columnId: string;
 }>();
 
-const state = reactive({ isModalActive: false, isTaskModal: false });
+const { showModal } = useModal();
 
 const handleDelete = () => {
   deleteTask(props.columnId, props.id);
 };
 
 const handleTaskOpen = () => {
-  state.isTaskModal = true;
-  state.isModalActive = true;
+  showModal(SelectedTask, {
+    id: props.id,
+    title: props.title,
+    description: props.description,
+    labels: props.labels,
+    columnId: props.columnId,
+  });
 };
 
 const handleDeleteConfirm = () => {
-  state.isTaskModal = false;
-  state.isModalActive = true;
+  showModal(DeleteVue, { title: props.title, confirm: handleDelete });
 };
 </script>
 
 <template>
   <div class="task">
-    <div @click.self="handleTaskOpen" class="task__wrapper">
+    <div @click.self="handleTaskOpen" class="task__container">
       <div class="task__side-info">
         <div class="task__labels">
           <Label v-for="label of props.labels" :key="label.id" :name="label.name" :color="label.color" />
         </div>
         <Dropdown>
-          <template v-slot:dropdown-content>
+          <template v-slot:content>
             <button @click="handleDeleteConfirm">Delete</button>
           </template>
         </Dropdown>
@@ -54,22 +57,6 @@ const handleDeleteConfirm = () => {
       </div>
     </div>
     <div class="task__additional-info"></div>
-    <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
-      <DeleteVue
-        v-if="!state.isTaskModal"
-        :confirm="handleDelete"
-        :title="props.title"
-        @close="state.isModalActive = false"
-      />
-      <SelectedTask
-        v-else
-        :id="props.id"
-        :title="props.title"
-        :description="props.description"
-        :labels="props.labels"
-        :column-id="props.columnId"
-      />
-    </Modal>
   </div>
 </template>
 
@@ -79,8 +66,8 @@ const handleDeleteConfirm = () => {
   flex-direction: column;
   gap: 0.25rem;
 }
-.task__wrapper {
-  background-color: #1d1f20;
+.task__container {
+  background-color: var(--secondary-darker-color);
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   padding: 0.5rem;
@@ -90,7 +77,7 @@ const handleDeleteConfirm = () => {
   padding: 0.75rem 0;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  background-color: #1d1f20;
+  background-color: var(--secondary-darker-color);
 }
 .task__labels {
   display: flex;

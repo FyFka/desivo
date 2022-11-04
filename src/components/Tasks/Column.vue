@@ -31,10 +31,10 @@ const handleTaskDrop = (evt: SortableEvent) => {
     <NewTask :column-id="props.columnId" />
     <Draggable
       class="column__draggable-zone"
-      :list="props.order"
       itemKey="id"
       group="tasks-columns"
       ghost-class="task--moveable"
+      :list="props.order"
       @end="handleTaskDrop"
     >
       <template #item="{ element }">

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
+import { useStore } from "../../hooks/useStore";
 
-const props = defineProps<{ isActive: boolean }>();
-const emit = defineEmits(["close"]);
+const store = useStore();
 
 const handleClose = () => {
-  emit("close");
+  store.commit("setModal", null);
 };
 
 const onKeyDown = (evt: KeyboardEvent) => {
@@ -24,16 +24,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Teleport to="#dynamic">
-    <Transition name="modal__transition">
-      <div class="modal" v-if="props.isActive" @click.left.self="handleClose">
-        <div class="modal__content">
-          <button class="modal__close" @click="handleClose">x</button>
-          <slot />
-        </div>
+  <Transition name="modal__transition">
+    <div @click.left.self="handleClose" v-if="store.state.modal" class="modal">
+      <div class="modal__content">
+        <button @click="handleClose" class="modal__close">x</button>
+        <component :is="store.state.modal?.component" v-bind="store.state.modal.props" />
       </div>
-    </Transition>
-  </Teleport>
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -49,7 +47,6 @@ onBeforeUnmount(() => {
   z-index: 7999;
   background: rgba(79, 100, 158, 0.8);
 }
-
 .modal__close {
   position: absolute;
   top: 0.25rem;
@@ -63,17 +60,15 @@ onBeforeUnmount(() => {
 .modal__content {
   position: relative;
   padding: 1.5rem;
-  background-color: var(--background-color);
+  background-color: var(--dark-color);
   min-width: 15rem;
   max-width: 30rem;
   border-radius: 0.5rem;
 }
-
 .modal__transition-enter-active,
 .modal__transition-leave-active {
   transition: all 0.25s ease;
 }
-
 .modal__transition-enter-from,
 .modal__transition-leave-to {
   opacity: 0;

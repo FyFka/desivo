@@ -2,19 +2,20 @@
 import { reactive, ref } from "vue";
 import { useProjects } from "../../hooks/useProjects";
 import { useImageReader } from "../../hooks/useImageReader";
+import { useModal } from "../../hooks/useModal";
 
 const state = reactive({ name: "", image: "", imageName: "", error: "" });
 const uploadImageRef = ref();
 const { addProject } = useProjects();
 const { readImage } = useImageReader(handleReadedImage);
-const emit = defineEmits(["close"]);
+const { hideModal } = useModal();
 
 const handleCreateProject = async () => {
   const addProjectResult = await addProject(state.name, state.image);
   if (addProjectResult) {
     state.error = addProjectResult;
   } else {
-    emit("close");
+    hideModal();
   }
 };
 
@@ -39,7 +40,7 @@ const handleImageUpload = async (evt: Event) => {
 <template>
   <form @submit.prevent="handleCreateProject" class="create-project">
     <h3 class="create-project__title">Create Project</h3>
-    <input v-model="state.name" class="create-project__inp" type="text" placeholder="Name" required />
+    <input v-model="state.name" class="create-project__field" placeholder="Name" required />
     <div class="create-project__row">
       <label for="create-project[image]">Image</label>
       <button @click="delegateEvent" class="create-project__upload" type="button">
@@ -84,7 +85,7 @@ const handleImageUpload = async (evt: Event) => {
   width: 100%;
   margin-bottom: 1rem;
 }
-.create-project__inp {
+.create-project__field {
   width: 100%;
   margin-bottom: 1rem;
 }

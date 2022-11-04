@@ -12,7 +12,7 @@ import { IMessage, IMessageRaw } from "../../interfaces/IMessage";
 import { IResponse } from "../../interfaces/IResponse";
 import Message from "./Message.vue";
 import Loader from "../Loader.vue";
-import { HISTORY_SKIP_COUNT } from "../../constants";
+import { HISTORY_SKIP_COUNT } from "../../shared/constants";
 import { useObservable } from "../../hooks/useObservable";
 import { useToast } from "vue-toastification";
 
@@ -108,8 +108,8 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div v-if="!state.loading" class="discussion__wrapper">
-    <div class="discussion__history-wrapper">
+  <div v-if="!state.loading" class="discussion__container">
+    <div class="discussion__history-container">
       <ul ref="historyRef" class="discussion__history" @scroll="handleHistoryScroll">
         <Message
           v-for="message of state.discussionHistory"
@@ -127,15 +127,15 @@ onUpdated(() => {
 </template>
 
 <style scoped>
-.discussion__wrapper {
+.discussion__container {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 3rem - 2.563rem - 2.5rem);
   overflow: hidden;
 }
-.discussion__history-wrapper {
+.discussion__history-container {
   height: 100%;
-  background-color: #1d2125;
+  background-color: var(--secondary-dark-color);
   margin: 0.5rem 0.5rem 0;
   border-radius: 0.5rem;
   overflow: hidden;

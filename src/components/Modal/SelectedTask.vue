@@ -17,7 +17,7 @@ const props = defineProps<{
 const state = reactive({
   title: props.title,
   description: props.description,
-  labelColor: "",
+  labelColor: "#2e81ff",
   labelName: "",
 });
 
@@ -40,23 +40,23 @@ const isTaskChanged = computed(() => state.title !== props.title || state.descri
       <div class="selected-task__labels-inner">
         <Label v-for="label of props.labels" :name="label.name" :color="label.color" :key="label.id" />
       </div>
-      <Dropdown header-color="#1d2125">
-        <template v-slot:dropdown-header>
-          <svg x="0" y="0" width="100%" height="20px" viewBox="0 0 18 18">
+      <Dropdown :html-button-options="{ backgroundColor: '#1d2125', minWidth: '4rem' }">
+        <template v-slot:button>
+          <svg x="0" y="0" width="100%" height="1rem" viewBox="0 0 18 18">
             <polygon fill="currentColor" points="15 10 10 10 10 15 8 15 8 10 3 10 3 8 8 8 8 3 10 3 10 8 15 8"></polygon>
           </svg>
         </template>
-        <template v-slot:dropdown-content>
+        <template v-slot:content>
           <form @submit.prevent="handleCreateLabel" @click.stop class="selected-task__create-label-form">
-            <input type="text" v-model="state.labelName" placeholder="Name" />
-            <input type="color" v-model="state.labelColor" />
+            <input v-model="state.labelName" placeholder="Name" required />
+            <input v-model="state.labelColor" type="color" required />
             <button class="selected-task__create-label" type="submit">Create</button>
           </form>
         </template>
       </Dropdown>
     </div>
-    <input class="selected-task__inp" v-model="state.title" />
-    <textarea class="selected-task__inp selected-task--description" v-model="state.description" />
+    <input class="selected-task__field" v-model="state.title" />
+    <textarea class="selected-task__field selected-task--description" v-model="state.description" />
     <button @click="handleTaskUpdate" class="selected-task__update" v-if="isTaskChanged">Update</button>
     <Comments />
   </div>
@@ -71,13 +71,13 @@ const isTaskChanged = computed(() => state.title !== props.title || state.descri
   gap: 0.75rem;
   width: 100%;
 }
-.selected-task__inp {
+.selected-task__field {
   width: 100%;
   min-height: 2rem;
   max-width: 27rem;
   min-width: 7rem;
 }
-.selected-task__inp:not(:focus) {
+.selected-task__field:not(:focus) {
   background-color: transparent;
 }
 .selected-task--description {

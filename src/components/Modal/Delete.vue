@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useModal } from "../../hooks/useModal";
+
 const props = defineProps<{ confirm: () => void; title: string }>();
-const emit = defineEmits(["close"]);
+
+const { hideModal } = useModal();
 
 const handleDelete = async () => {
   props.confirm();
-  emit("close");
+  hideModal();
 };
 </script>
 
@@ -17,7 +20,7 @@ const handleDelete = async () => {
     </p>
     <p class="delete__warning">This action cannot be undone.</p>
     <div class="delete__row">
-      <button type="submit" class="delete__cancel" @click="emit('close')">Cancel</button>
+      <button type="submit" class="delete__cancel" @click="hideModal">Cancel</button>
       <button type="submit" class="delete__confirm" @click="handleDelete">Delete</button>
     </div>
   </div>

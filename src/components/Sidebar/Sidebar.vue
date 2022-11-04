@@ -1,30 +1,21 @@
 <script setup lang="ts">
 import MiniProfile from "./MiniProfile.vue";
-import Modal from "../Modal/Modal.vue";
 import CreateProject from "../Modal/CreateProject.vue";
-import { useModal } from "../../hooks/useModal";
 import JoinProject from "../Modal/JoinProject.vue";
-import { computed, reactive } from "vue";
+import { useModal } from "../../hooks/useModal";
+import { computed } from "vue";
 import { useStore } from "../../hooks/useStore";
 import MiniProject from "./MiniProject.vue";
 
-enum ModalType {
-  JOIN_PROJECT,
-  CREATE_PROJECT,
-}
-
 const store = useStore();
-const state = reactive({ modalType: ModalType.CREATE_PROJECT });
-const [isCreateProjectOpen, toggleModal] = useModal();
+const { showModal } = useModal();
 
 const handleCreateProject = () => {
-  state.modalType = ModalType.CREATE_PROJECT;
-  toggleModal(true);
+  showModal(CreateProject);
 };
 
 const handleJoinToProject = () => {
-  state.modalType = ModalType.JOIN_PROJECT;
-  toggleModal(true);
+  showModal(JoinProject);
 };
 
 const projects = computed(() => store.state.projects);
@@ -54,10 +45,6 @@ const projects = computed(() => store.state.projects);
       </div>
     </div>
   </aside>
-  <Modal :is-active="isCreateProjectOpen" @close="toggleModal(false)">
-    <CreateProject v-if="state.modalType === ModalType.CREATE_PROJECT" @close="toggleModal(false)" />
-    <JoinProject v-if="state.modalType === ModalType.JOIN_PROJECT" @close="toggleModal(false)" />
-  </Modal>
 </template>
 
 <style scoped>

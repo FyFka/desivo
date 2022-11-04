@@ -15,11 +15,7 @@ const user = computed(() => store.state.user);
 
 <template>
   <div class="mini-profile">
-    <RouterLink
-      class="mini-profile__profile-container"
-      :to="`/profile/${user?.username}`"
-      v-bind:title="user?.username"
-    >
+    <RouterLink class="mini-profile__container" :to="`/profile/${user?.username}`" v-bind:title="user?.username">
       <h4 class="mini-profile__title">Profile</h4>
       <img class="mini-profile__avatar" v-bind:src="user?.avatar" alt="avatar" />
     </RouterLink>
@@ -30,7 +26,7 @@ const user = computed(() => store.state.user);
 </template>
 
 <style scoped>
-.mini-profile__profile-container {
+.mini-profile__container {
   display: block;
   width: 100%;
   padding: 0;

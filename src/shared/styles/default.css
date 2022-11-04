@@ -1,20 +1,11 @@
 :root {
-  --background-color: #101213;
-  --the-darkest-color: #0a0a0a;
-  --secondary-color: #373b40;
-  --secondary-light-color: #6e7175;
-  --highlight-color: #2e81ff;
-  --highlight-light-color: #5c9dff;
-  --highlight-danger-color: #ed4245;
-  --neutral-color: #fefefe;
-
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
   color: var(--neutral-color);
-  background-color: var(--background-color);
+  background-color: var(--dark-color);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

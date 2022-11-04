@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { createColumn } from "../../api/tasks";
+import { useModal } from "../../hooks/useModal";
 
 const props = defineProps<{ projectId: string }>();
 const state = reactive({ columnName: "", color: "#2e81ff" });
-const emit = defineEmits(["close"]);
+const { hideModal } = useModal();
 
 const handleJoinProject = async () => {
   createColumn(props.projectId, state.columnName, state.color);
-  emit("close");
+  hideModal();
 };
 </script>
 
@@ -17,9 +18,9 @@ const handleJoinProject = async () => {
     <h3 class="create-column__title">Create column</h3>
     <div class="create-column__row">
       <div class="create-column__color-wrapper">
-        <input v-model="state.color" class="create-column__inp create-column--color" type="color" required />
+        <input v-model="state.color" class="create-column__field create-column--color" type="color" required />
       </div>
-      <input v-model="state.columnName" class="create-column__inp" type="text" placeholder="Name" required />
+      <input v-model="state.columnName" class="create-column__field" placeholder="Name" required />
     </div>
     <button type="submit" class="create-column__submit">Create</button>
   </form>
@@ -41,7 +42,7 @@ const handleJoinProject = async () => {
   background-color: var(--highlight-color);
   width: 100%;
 }
-.create-column__inp {
+.create-column__field {
   flex: 10;
 }
 .create-column__row {

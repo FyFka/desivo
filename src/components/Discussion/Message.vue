@@ -38,7 +38,7 @@ defineExpose({ messageRef });
   min-height: 2.75rem;
 }
 .message:hover {
-  background-color: #2e3236;
+  background-color: var(--secondary-color);
 }
 .message__sender-avatar {
   position: absolute;

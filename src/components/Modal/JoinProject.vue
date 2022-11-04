@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import { useModal } from "../../hooks/useModal";
 import { useProjects } from "../../hooks/useProjects";
 
 const state = reactive({ projectId: "", error: "" });
 const { joinToProject } = useProjects();
-const emit = defineEmits(["close"]);
+const { hideModal } = useModal();
 
 const handleJoinProject = async () => {
   const joinProjectResult = await joinToProject(state.projectId);
   if (joinProjectResult) {
     state.error = joinProjectResult;
   } else {
-    emit("close");
+    hideModal();
   }
 };
 </script>
@@ -19,7 +20,7 @@ const handleJoinProject = async () => {
 <template>
   <form @submit.prevent="handleJoinProject" class="join-project">
     <h3 class="join-project__title">Join To Project</h3>
-    <input v-model="state.projectId" class="join-project__inp" type="text" placeholder="Project id" required />
+    <input v-model="state.projectId" class="join-project__field" placeholder="Project id" required />
     <button type="submit" class="join-project__submit">Join</button>
     <p class="join-project__error" v-if="state.error">{{ state.error }}</p>
   </form>
@@ -41,7 +42,7 @@ const handleJoinProject = async () => {
   background-color: var(--highlight-color);
   width: 100%;
 }
-.join-project__inp {
+.join-project__field {
   width: 100%;
   margin-bottom: 1rem;
 }

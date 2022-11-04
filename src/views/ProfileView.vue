@@ -76,7 +76,7 @@ onMounted(async () => {
 
 <template>
   <Layout>
-    <div class="profile__container">
+    <div class="profile">
       <template v-if="state.user">
         <Avatar :avatar="state.user.avatar" :editable="isOwnerProfile" :update-avatar="updateAvatar" />
         <User
@@ -94,7 +94,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.profile__container {
+.profile {
   display: flex;
   flex-direction: column;
   align-items: center;

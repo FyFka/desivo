@@ -9,6 +9,7 @@ import { registerConnection } from "./api/user";
 import { useStore } from "./hooks/useStore";
 import { useObservable } from "./hooks/useObservable";
 import { useAuth } from "./hooks/useAuth";
+import Modal from "./components/Modal/Modal.vue";
 import "vue-toastification/dist/index.css";
 
 const { loginByToken, logout } = useAuth();
@@ -50,5 +51,6 @@ onBeforeUnmount(() => {
   <VueFrame>
     <RouterView v-if="state.isLoaded" :key="route.path" />
     <Loader v-else />
+    <Modal />
   </VueFrame>
 </template>

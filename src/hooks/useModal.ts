@@ -1,14 +1,16 @@
-import { computed, ComputedRef } from "vue";
+import { markRaw } from "vue";
 import { useStore } from "./useStore";
 
-export const useModal = (): [ComputedRef<boolean>, (isOpen: boolean) => void] => {
+export const useModal = () => {
   const store = useStore();
 
-  const toggleModal = (isOpen: boolean) => {
-    store.commit("setModal", isOpen);
+  const showModal = (component: any | null, props?: any) => {
+    store.commit("setModal", { component: markRaw(component), props });
   };
 
-  const isModalOpen = computed(() => store.state.isModalOpen);
+  const hideModal = () => {
+    store.commit("setModal", null);
+  };
 
-  return [isModalOpen, toggleModal];
+  return { showModal, hideModal };
 };

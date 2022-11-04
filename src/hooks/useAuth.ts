@@ -1,4 +1,3 @@
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { createUser, getUserByAuth, getUserByToken, registerConnection } from "../api/user";
 import { IUser } from "../interfaces/IUser";
@@ -62,8 +61,6 @@ export const useAuth = () => {
     store.commit("setProjects", []);
     router.push("/login");
   };
-
-  const user = computed(() => store.state.user);
 
   return { loginByToken, loginByAuth, logout, signup };
 };

@@ -17,8 +17,8 @@ const handleLogin = async () => {
   <div class="login">
     <form @submit.prevent="handleLogin" class="login__container">
       <h1 class="login__title">Login</h1>
-      <input v-model="state.username" class="login__inp" type="text" placeholder="Login" required />
-      <input v-model="state.password" class="login__inp" type="text" placeholder="Password" required />
+      <input v-model="state.username" class="login__field" placeholder="Login" required />
+      <input v-model="state.password" class="login__field" placeholder="Password" required />
       <p class="login__error" v-if="state.error">{{ state.error }}</p>
       <button type="submit" class="login__submit">Log in</button>
       <p class="login__not-member">
@@ -56,7 +56,7 @@ const handleLogin = async () => {
   margin-bottom: 0.5rem;
 }
 
-.login__inp {
+.login__field {
   width: 100%;
   margin-bottom: 1rem;
 }

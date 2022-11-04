@@ -4,7 +4,7 @@ const props = defineProps<{ image: string; name: string }>();
 
 <template>
   <div class="project">
-    <img class="project__img" v-bind:src="props.image" />
+    <img class="project__project-image" v-bind:src="props.image" />
     <div class="project__info">
       <h3 class="project__title">{{ props.name }}</h3>
     </div>
@@ -25,7 +25,7 @@ const props = defineProps<{ image: string; name: string }>();
 .project:hover .project__info {
   opacity: 1;
 }
-.project__img {
+.project__project-image {
   width: 100%;
   height: 100%;
   object-fit: cover;

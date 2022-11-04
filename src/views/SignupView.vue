@@ -17,11 +17,11 @@ const handleSignup = async () => {
   <div class="signup">
     <form @submit.prevent="handleSignup" class="signup__container">
       <h1 class="signup__title">Sign up</h1>
-      <input v-model="state.username" class="signup__inp" type="text" placeholder="Username" required />
-      <input v-model="state.password" class="signup__inp" type="text" placeholder="Password" required />
+      <input v-model="state.username" class="signup__field" placeholder="Username" required />
+      <input v-model="state.password" class="signup__field" placeholder="Password" required />
       <div class="signup__row">
-        <input v-model="state.name" class="signup__inp" type="text" placeholder="Name" required />
-        <input v-model="state.secondName" class="signup__inp" type="text" placeholder="Second Name" required />
+        <input v-model="state.name" class="signup__field" placeholder="Name" required />
+        <input v-model="state.secondName" class="signup__field" placeholder="Second Name" required />
       </div>
       <p class="signup__error" v-if="state.error">{{ state.error }}</p>
       <button type="submit" class="signup__submit">Sign up</button>
@@ -59,14 +59,12 @@ const handleSignup = async () => {
   display: flex;
   gap: 1rem;
 }
-
 .signup__submit {
   background-color: var(--highlight-color);
   width: 100%;
   margin-bottom: 0.5rem;
 }
-
-.signup__inp {
+.signup__field {
   width: 100%;
   margin-bottom: 1rem;
 }

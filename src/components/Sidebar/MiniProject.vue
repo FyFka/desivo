@@ -4,7 +4,7 @@ const props = defineProps<{ id: string; image: string; name: string }>();
 
 <template>
   <RouterLink class="mini-project" :to="`/project/${props.id}/tasks`">
-    <img class="mini-project__image" v-bind:src="props.image" />
+    <img class="mini-project__project-image" v-bind:src="props.image" />
     <div class="mini-project__prompt">{{ props.name }}</div>
   </RouterLink>
 </template>
@@ -25,7 +25,7 @@ const props = defineProps<{ id: string; image: string; name: string }>();
 .mini-project:hover > .mini-project__prompt {
   display: block;
 }
-.mini-project__image {
+.mini-project__project-image {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 0.15rem;

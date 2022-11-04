@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, StyleValue } from "vue";
 
-const props = defineProps<{ headerColor?: string }>();
+const props = defineProps<{ htmlButtonOptions?: StyleValue }>();
 
 const state = reactive({ isControlOpen: false });
 
@@ -30,8 +30,8 @@ const onKeyDown = (evt: KeyboardEvent) => {
 
 <template>
   <div class="dropdown">
-    <button @click.stop="openControl" class="dropdown__btn" :style="{ backgroundColor: props.headerColor }">
-      <slot name="dropdown-header">
+    <button @click.stop="openControl" class="dropdown__open" :style="props.htmlButtonOptions">
+      <slot name="button">
         <svg width="100%" height="100%">
           <g transform="rotate(90 12 12)">
             <circle
@@ -69,7 +69,7 @@ const onKeyDown = (evt: KeyboardEvent) => {
       </slot>
     </button>
     <div class="dropdown__content" v-if="state.isControlOpen">
-      <slot name="dropdown-content" />
+      <slot name="content" />
     </div>
   </div>
 </template>
@@ -82,7 +82,7 @@ const onKeyDown = (evt: KeyboardEvent) => {
   line-height: 0;
   flex: 1;
 }
-.dropdown__btn {
+.dropdown__open {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,7 @@ const onKeyDown = (evt: KeyboardEvent) => {
   position: absolute;
   z-index: 200;
   right: 0;
-  background-color: var(--background-color);
+  background-color: var(--dark-color);
   border: 0.063rem solid var(--secondary-color);
   border-radius: 0.5rem;
   min-width: 100%;

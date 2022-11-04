@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { createTask } from "../../api/tasks";
+import { useModal } from "../../hooks/useModal";
 
 const props = defineProps<{ columnId: string }>();
 const state = reactive({ taskTitle: "", taskDescription: "" });
-const emit = defineEmits(["close"]);
+const { hideModal } = useModal();
 
 const handleJoinProject = async () => {
   createTask(state.taskTitle, state.taskDescription, props.columnId);
-
-  emit("close");
+  hideModal();
 };
 </script>
 
 <template>
   <form @submit.prevent="handleJoinProject" class="create-task">
     <h3 class="create-task__title">Create task</h3>
-    <input v-model="state.taskTitle" class="create-task__inp" type="text" placeholder="Title" required />
-    <input v-model="state.taskDescription" class="create-task__inp" type="text" placeholder="Description" required />
+    <input v-model="state.taskTitle" class="create-task__field" placeholder="Title" required />
+    <input v-model="state.taskDescription" class="create-task__field" placeholder="Description" required />
     <button type="submit" class="create-task__submit">Create</button>
   </form>
 </template>
@@ -38,7 +38,7 @@ const handleJoinProject = async () => {
   background-color: var(--highlight-color);
   width: 100%;
 }
-.create-task__inp {
+.create-task__field {
   width: 100%;
   margin-bottom: 1rem;
 }

@@ -30,14 +30,14 @@ const handleSubmitMessage = () => {
   display: block;
   padding: 0.25rem;
   height: 3rem;
-  background-color: #2d3338;
+  background-color: var(--secondary-color);
   border-radius: 0.5rem;
   margin: 0.5rem;
 }
 .user-message__field {
   height: 100%;
   width: 100%;
-  background-color: #2d3338;
+  background-color: var(--secondary-color);
   color: var(--neutral-color);
   border: none;
   resize: none;

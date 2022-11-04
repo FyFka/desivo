@@ -7,7 +7,7 @@ export interface IAppStore {
   user: IUser | null;
   token: string;
   projects: IProject[];
-  isModalOpen: boolean;
+  modal: { component: any; props: any } | null;
   connectionId: string;
 }
 
@@ -19,8 +19,8 @@ export const store = createStore<IAppStore>({
       user: null,
       token: "",
       projects: [],
-      isModalOpen: false,
       connectionId: "",
+      modal: null,
     };
   },
   mutations: {
@@ -51,8 +51,8 @@ export const store = createStore<IAppStore>({
     addProject(state, project: IProject) {
       state.projects.push(project);
     },
-    setModal(state, isOpen: boolean) {
-      state.isModalOpen = isOpen;
+    setModal(state, modal: any | null) {
+      state.modal = modal;
     },
   },
 });

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ROOT_API } from "../constants";
+import { ROOT_API } from "../shared/constants";
 
 export const serverRequest = axios.create({ baseURL: ROOT_API });
 
