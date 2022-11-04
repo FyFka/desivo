@@ -63,6 +63,9 @@ defineExpose({ messageRef });
   color: var(--neutral-color);
   font-weight: 700;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 25rem;
 }
 .message__sender-username:hover {
   text-decoration: underline;

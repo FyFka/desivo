@@ -2,9 +2,11 @@
 import { ILabel } from "../../interfaces/ITask";
 import Modal from "../Modal/Modal.vue";
 import DeleteVue from "../Modal/Delete.vue";
-import Control from "./Control.vue";
+import Dropdown from "../Dropdown.vue";
 import { reactive } from "vue";
 import { deleteTask } from "../../api/tasks";
+import SelectedTask from "../Modal/SelectedTask.vue";
+import Label from "./Label.vue";
 
 const props = defineProps<{
   id: string;
@@ -14,34 +16,35 @@ const props = defineProps<{
   columnId: string;
 }>();
 
-const state = reactive({ isModalActive: false });
+const state = reactive({ isModalActive: false, isTaskModal: false });
 
 const handleDelete = () => {
   deleteTask(props.columnId, props.id);
 };
 
+const handleTaskOpen = () => {
+  state.isTaskModal = true;
+  state.isModalActive = true;
+};
+
 const handleDeleteConfirm = () => {
+  state.isTaskModal = false;
   state.isModalActive = true;
 };
 </script>
 
 <template>
   <div class="task">
-    <div class="task__wrapper">
+    <div @click.self="handleTaskOpen" class="task__wrapper">
       <div class="task__side-info">
         <div class="task__labels">
-          <div
-            v-for="label of props.labels"
-            :key="label.id"
-            class="task__label"
-            :style="{ 'background-color': label.color }"
-          >
-            {{ label.name }}
-          </div>
+          <Label v-for="label of props.labels" :key="label.id" :name="label.name" :color="label.color" />
         </div>
-        <Control>
-          <button @click="handleDeleteConfirm">Delete</button>
-        </Control>
+        <Dropdown>
+          <template v-slot:dropdown-content>
+            <button @click="handleDeleteConfirm">Delete</button>
+          </template>
+        </Dropdown>
       </div>
       <div class="task__info">
         <h2 class="task__title">{{ props.title }}</h2>
@@ -50,9 +53,22 @@ const handleDeleteConfirm = () => {
         </p>
       </div>
     </div>
-    <div class="task__additional-info handle"></div>
+    <div class="task__additional-info"></div>
     <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
-      <DeleteVue :confirm="handleDelete" :title="props.title" @close="state.isModalActive = false" />
+      <DeleteVue
+        v-if="!state.isTaskModal"
+        :confirm="handleDelete"
+        :title="props.title"
+        @close="state.isModalActive = false"
+      />
+      <SelectedTask
+        v-else
+        :id="props.id"
+        :title="props.title"
+        :description="props.description"
+        :labels="props.labels"
+        :column-id="props.columnId"
+      />
     </Modal>
   </div>
 </template>
@@ -68,15 +84,13 @@ const handleDeleteConfirm = () => {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   padding: 0.5rem;
+  cursor: pointer;
 }
 .task__additional-info {
-  height: 2rem;
+  padding: 0.75rem 0;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   background-color: #1d1f20;
-}
-.handle {
-  cursor: move;
 }
 .task__labels {
   display: flex;
@@ -88,27 +102,26 @@ const handleDeleteConfirm = () => {
 .task__side-info {
   display: flex;
   width: 100%;
-}
-.task__label {
-  font-size: 0.75rem;
-  display: inline-block;
-  background-color: red;
-  border-radius: 1rem;
-  padding: 0 0.35rem;
+  height: 1.75rem;
 }
 .task__title {
   font-size: 1.15rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
   color: var(--neutral-color);
   margin: 0.5rem 0;
 }
 .task__info {
   overflow: hidden;
+  pointer-events: none;
 }
 .task__description {
   font-weight: 400;
   font-size: 1rem;
   color: var(--secondary-light-color);
   margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .task--moveable {
   border-radius: 0.5rem;

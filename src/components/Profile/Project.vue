@@ -43,6 +43,7 @@ const props = defineProps<{ image: string; name: string }>();
   width: 100%;
   background-color: rgba(16, 18, 19, 0.8);
   transition: opacity 0.25s;
+  overflow: hidden;
 }
 .project__title {
   font-size: 1.25rem;

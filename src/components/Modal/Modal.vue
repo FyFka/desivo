@@ -65,6 +65,7 @@ onBeforeUnmount(() => {
   padding: 1.5rem;
   background-color: var(--background-color);
   min-width: 15rem;
+  max-width: 30rem;
   border-radius: 0.5rem;
 }
 

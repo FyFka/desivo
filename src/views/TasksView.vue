@@ -2,7 +2,7 @@
 import ProjectLayout from "./Layouts/ProjectLayout.vue";
 import { MenuEnum } from "../interfaces/IMenu";
 import Column from "../components/Tasks/Column.vue";
-import { ITask, ITaskColumn, ITaskColumnRaw } from "../interfaces/ITask";
+import { ILabel, ITask, ITaskColumn, ITaskColumnRaw } from "../interfaces/ITask";
 import { onBeforeUnmount, onMounted, reactive } from "vue";
 import {
   requestColumns,
@@ -13,6 +13,8 @@ import {
   subscribeToMoveTasks,
   subscribeToDeleteColumn,
   subscribeToDeleteTask,
+  subscribeToUpdateTask,
+  subscribeToNewLabel,
 } from "../api/tasks";
 import { useRoute } from "vue-router";
 import { IResponse } from "../interfaces/IResponse";
@@ -120,6 +122,23 @@ const handleDeleteColumn = (deletedColumn: IResponse<{ columnId: string }>) => {
   }
 };
 
+const handleUpdateTask = (updatedTask: IResponse<{ taskId: string; title: string; description: string }>) => {
+  if (updatedTask.value) {
+    state.tasks[updatedTask.value.taskId] = { ...state.tasks[updatedTask.value.taskId], ...updatedTask.value };
+  } else if (updatedTask.message) {
+    toast.error(updatedTask.message);
+  }
+};
+
+const handleNewLabel = (newLabel: IResponse<{ taskId: string; label: ILabel }>) => {
+  if (newLabel.value) {
+    const { taskId, label } = newLabel.value;
+    state.tasks[taskId].labels.push(label);
+  } else if (newLabel.message) {
+    toast.error(newLabel.message);
+  }
+};
+
 onMounted(() => {
   subscribe(subscribeToTasks(route.params.id.toString()));
   subscribe(subscribeToColumns(handleColumns));
@@ -128,6 +147,8 @@ onMounted(() => {
   subscribe(subscribeToMoveTasks(handleMoveTasks));
   subscribe(subscribeToDeleteColumn(handleDeleteColumn));
   subscribe(subscribeToDeleteTask(handleDeleteTask));
+  subscribe(subscribeToUpdateTask(handleUpdateTask));
+  subscribe(subscribeToNewLabel(handleNewLabel));
 
   requestColumns(route.params.id.toString());
 });

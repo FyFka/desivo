@@ -49,6 +49,10 @@ html {
   border-radius: 1rem;
 }
 
+*::-webkit-scrollbar-corner {
+  background-color: #1e2224;
+}
+
 a {
   color: var(--highlight-color);
   text-decoration: inherit;
@@ -73,7 +77,8 @@ button {
 }
 
 input,
-button {
+button,
+textarea {
   padding: 0.6rem 1.2rem;
   transition: border-color 0.25s;
 }
@@ -94,7 +99,8 @@ button {
   background-color: transparent;
 }
 
-input {
+input,
+textarea {
   background-color: var(--secondary-color);
 }
 

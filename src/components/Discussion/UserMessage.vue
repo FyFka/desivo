@@ -43,6 +43,5 @@ const handleSubmitMessage = () => {
   resize: none;
   overflow: hidden;
   font-size: 1rem;
-  padding: 0.5rem;
 }
 </style>

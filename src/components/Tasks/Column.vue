@@ -35,7 +35,6 @@ const handleTaskDrop = (evt: SortableEvent) => {
       itemKey="id"
       group="tasks-columns"
       ghost-class="task--moveable"
-      handle=".handle"
       @end="handleTaskDrop"
     >
       <template #item="{ element }">

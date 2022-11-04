@@ -2,7 +2,7 @@
 import { reactive } from "vue";
 import Modal from "../Modal/Modal.vue";
 import DeleteVue from "../Modal/Delete.vue";
-import Control from "./Control.vue";
+import Dropdown from "../Dropdown.vue";
 import { deleteColumn } from "../../api/tasks";
 
 const props = defineProps<{
@@ -29,9 +29,11 @@ const handleDeleteConfirm = () => {
       <span class="column-title__color" :style="{ 'background-color': props.color }"></span>
       {{ props.title }} <span class="column-title__column-count">{{ props.count }}</span>
     </h2>
-    <Control>
-      <button @click="handleDeleteConfirm">Delete</button>
-    </Control>
+    <Dropdown>
+      <template v-slot:dropdown-content>
+        <button @click="handleDeleteConfirm">Delete</button>
+      </template>
+    </Dropdown>
   </div>
   <Modal :is-active="state.isModalActive" @close="state.isModalActive = false">
     <DeleteVue :confirm="handleDelete" :title="props.title" @close="state.isModalActive = false" />
@@ -43,6 +45,7 @@ const handleDeleteConfirm = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-height: 1.5rem;
 }
 .column-title__title {
   position: relative;
@@ -51,6 +54,10 @@ const handleDeleteConfirm = () => {
   font-weight: 400;
   padding-left: 1rem;
   color: var(--neutral-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 10;
 }
 .column-title__color {
   position: absolute;
@@ -62,17 +69,6 @@ const handleDeleteConfirm = () => {
   border-radius: 50%;
   background-color: var(--highlight-color);
 }
-/* .column-title__title::before {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 100%;
-  background-color: red;
-} */
 .column-title__column-count {
   display: inline-block;
   margin-left: 0.25rem;

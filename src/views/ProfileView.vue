@@ -16,12 +16,13 @@ interface IProfileState {
   user: IUser | null;
   projects: IProject[];
   isProfileChanged: boolean;
+  loading: boolean;
 }
 
 const store = useStore();
 const route = useRoute();
 const toast = useToast();
-const state = reactive<IProfileState>({ user: null, projects: [], isProfileChanged: false });
+const state = reactive<IProfileState>({ user: null, projects: [], isProfileChanged: false, loading: false });
 const isOwnerProfile = computed(() => store.state.user?.username === route.params.username || state.isProfileChanged);
 
 const getUser = async () => {
@@ -69,6 +70,7 @@ const updateProfile = async (newProfile: IUserProfile) => {
 onMounted(async () => {
   await getUser();
   await getProjects();
+  state.loading = false;
 });
 </script>
 
@@ -84,7 +86,7 @@ onMounted(async () => {
           :editable="isOwnerProfile"
           :update-profile="updateProfile"
         />
-        <Projects :projects="state.projects" />
+        <Projects :projects="state.projects" :loading="state.loading" />
       </template>
       <Loader v-else />
     </div>
