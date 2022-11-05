@@ -37,26 +37,23 @@ const handleDeleteConfirm = () => {
 </script>
 
 <template>
-  <div class="task">
-    <div @click.self="handleTaskOpen" class="task__container">
-      <div class="task__side-info">
-        <div class="task__labels">
-          <Label v-for="label of props.labels" :key="label.id" :name="label.name" :color="label.color" />
-        </div>
-        <Dropdown>
-          <template v-slot:content>
-            <button @click="handleDeleteConfirm">Delete</button>
-          </template>
-        </Dropdown>
+  <div @click.self="handleTaskOpen" class="task">
+    <div class="task__side-info">
+      <div class="task__labels">
+        <Label v-for="label of props.labels" :key="label.id" :name="label.name" :color="label.color" />
       </div>
-      <div class="task__info">
-        <h2 class="task__title">{{ props.title }}</h2>
-        <p class="task__description">
-          {{ props.description }}
-        </p>
-      </div>
+      <Dropdown>
+        <template v-slot:content>
+          <button @click="handleDeleteConfirm">Delete</button>
+        </template>
+      </Dropdown>
     </div>
-    <div class="task__additional-info"></div>
+    <div class="task__info">
+      <h2 class="task__title">{{ props.title }}</h2>
+      <p class="task__description">
+        {{ props.description }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -65,19 +62,10 @@ const handleDeleteConfirm = () => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-}
-.task__container {
+  padding: 1rem 0.5rem;
+  border-radius: 0.5rem;
   background-color: var(--secondary-darker-color);
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  padding: 0.5rem;
   cursor: pointer;
-}
-.task__additional-info {
-  padding: 0.75rem 0;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  background-color: var(--secondary-darker-color);
 }
 .task__labels {
   display: flex;
