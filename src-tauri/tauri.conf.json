@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "task-manager",
+    "productName": "desivo",
     "version": "0.0.0"
   },
   "tauri": {
@@ -51,7 +51,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "task-manager",
+        "title": "desivo",
         "height": 600,
         "width": 800,
         "minWidth": 320,

@@ -3,7 +3,7 @@ import { ILabel } from "../../interfaces/ITask";
 import DeleteVue from "../Modal/Delete.vue";
 import Dropdown from "../Dropdown.vue";
 import { deleteTask } from "../../api/tasks";
-import SelectedTask from "../Modal/SelectedTask.vue";
+import BigTask from "../Modal/BigTask.vue";
 import Label from "./Label.vue";
 import { useModal } from "../../hooks/useModal";
 
@@ -22,7 +22,7 @@ const handleDelete = () => {
 };
 
 const handleTaskOpen = () => {
-  showModal(SelectedTask, {
+  showModal(BigTask, {
     id: props.id,
     title: props.title,
     description: props.description,

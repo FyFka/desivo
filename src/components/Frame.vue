@@ -17,7 +17,7 @@ const handleMinimize = () => {
 
 <template>
   <header data-tauri-drag-region class="frame">
-    <h1 data-tauri-drag-region class="frame__app-name">Task-manager</h1>
+    <h1 data-tauri-drag-region class="frame__app-name">Desivo</h1>
     <div class="frame__controls">
       <button class="frame__minimize" @click="handleMinimize">
         <svg width="12" height="12" viewBox="0 0 12 12">

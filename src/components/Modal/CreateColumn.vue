@@ -2,9 +2,10 @@
 import { reactive } from "vue";
 import { createColumn } from "../../api/tasks";
 import { useModal } from "../../hooks/useModal";
+import { DEFAULT_COLOR } from "../../shared/constants";
 
 const props = defineProps<{ projectId: string }>();
-const state = reactive({ columnName: "", color: "#2e81ff" });
+const state = reactive({ columnName: "", color: DEFAULT_COLOR });
 const { hideModal } = useModal();
 
 const handleJoinProject = async () => {

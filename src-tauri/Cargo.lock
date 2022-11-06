@@ -579,6 +579,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "desivo"
+version = "0.0.0"
+dependencies = [
+ "magic-crypt",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+]
+
+[[package]]
 name = "digest"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2768,17 +2779,6 @@ dependencies = [
  "filetime",
  "libc",
  "xattr",
-]
-
-[[package]]
-name = "task-manager"
-version = "0.0.0"
-dependencies = [
- "magic-crypt",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
 ]
 
 [[package]]
