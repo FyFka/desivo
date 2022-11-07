@@ -30,6 +30,7 @@ const props = defineProps<{ image: string; name: string }>();
   height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
+  background-color: var(--the-darkest-color);
 }
 .project__info {
   display: flex;

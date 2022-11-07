@@ -22,7 +22,7 @@ interface IProfileState {
 const store = useStore();
 const route = useRoute();
 const toast = useToast();
-const state = reactive<IProfileState>({ user: null, projects: [], isProfileChanged: false, loading: false });
+const state = reactive<IProfileState>({ user: null, projects: [], isProfileChanged: false, loading: true });
 const isOwnerProfile = computed(() => store.state.user?.username === route.params.username || state.isProfileChanged);
 
 const getUser = async () => {

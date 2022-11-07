@@ -24,7 +24,11 @@ const projects = computed(() => store.state.projects);
 <template>
   <aside class="sidebar">
     <div class="sidebar__container">
-      <h4 class="sidebar__menu-title">Sidebar</h4>
+      <RouterLink to="/" class="sidebar__menu-logo" tabindex="-1">
+        <svg height="100%" width="100%" viewBox="0 0 432 432">
+          <path style="fill: none; stroke: #fff; stroke-width: 46" d="M216 76 64 356h304z" />
+        </svg>
+      </RouterLink>
       <ul class="sidebar__list">
         <li v-for="project in projects" :key="project.id" class="sidebar__item">
           <MiniProject :id="project.id" :image="project.image" :name="project.name" />
@@ -66,13 +70,13 @@ const projects = computed(() => store.state.projects);
   margin: 0;
   padding: 0;
   list-style: none;
-  height: calc(100vh - 3rem - 2rem - 7.75rem);
+  height: calc(100vh - 3rem - 2rem - 6.75rem);
   overflow-y: overlay;
 }
-.sidebar__menu-title {
-  margin: 0.5rem 0;
-  color: var(--secondary-light-color);
-  font-size: 0.75rem;
+.sidebar__menu-logo {
+  display: block;
+  height: 1.75rem;
+  margin-bottom: 0.5rem;
 }
 .sidebar__control {
   display: flex;

@@ -55,10 +55,11 @@ export const useAuth = () => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     store.commit("setUser", null);
     store.commit("setToken", "");
     store.commit("setProjects", []);
+    await setToAppStorage("cached_token", { token: "" });
     router.push("/login");
   };
 

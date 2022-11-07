@@ -4,13 +4,15 @@ import Loader from "./components/Loader.vue";
 import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import { useProjects } from "./hooks/useProjects";
 import { useRoute } from "vue-router";
-import { subscribeToReconnection } from "./api/connection";
+import { subscribeToGlobalError, subscribeToReconnection } from "./api/connection";
 import { registerConnection } from "./api/user";
 import { useStore } from "./hooks/useStore";
 import { useObservable } from "./hooks/useObservable";
 import { useAuth } from "./hooks/useAuth";
 import Modal from "./components/Modal/Modal.vue";
 import "vue-toastification/dist/index.css";
+import { useToast } from "vue-toastification";
+import { IResponse } from "./interfaces/IResponse";
 
 const { loginByToken, logout } = useAuth();
 const { refreshProjects } = useProjects();
@@ -18,6 +20,7 @@ const route = useRoute();
 const store = useStore();
 const { subscribe, unsubscribeFromAll } = useObservable();
 const state = reactive({ isLoaded: false });
+const toast = useToast();
 
 watch(
   () => store.state.token,
@@ -34,9 +37,16 @@ const reconnect = () => {
   }
 };
 
+const handleGlobalError = (error: IResponse) => {
+  if (error.message) {
+    toast.error(error.message);
+  }
+};
+
 onMounted(async () => {
   window.addEventListener("token-expired", logout);
   subscribe(subscribeToReconnection(reconnect));
+  subscribe(subscribeToGlobalError(handleGlobalError));
   await loginByToken();
   state.isLoaded = true;
 });

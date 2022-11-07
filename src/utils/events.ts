@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
+import { ROOT_API } from "../shared/constants";
 
-const socket = io("http://localhost:3001");
+const socket = io(ROOT_API);
 
 export const onExternalEvent = <T>(evt: string, callback: (data: T) => void) => {
   socket.on(evt, callback);

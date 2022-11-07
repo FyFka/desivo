@@ -6,8 +6,8 @@ import { useStore } from "../../hooks/useStore";
 const { logout } = useAuth();
 const store = useStore();
 
-const handleLogout = () => {
-  logout();
+const handleLogout = async () => {
+  await logout();
 };
 
 const user = computed(() => store.state.user);
@@ -16,7 +16,6 @@ const user = computed(() => store.state.user);
 <template>
   <div class="mini-profile">
     <RouterLink class="mini-profile__container" :to="`/profile/${user?.username}`" v-bind:title="user?.username">
-      <h4 class="mini-profile__title">Profile</h4>
       <img class="mini-profile__avatar" v-bind:src="user?.avatar" alt="avatar" />
     </RouterLink>
     <button @click="handleLogout" class="mini-profile__logout" title="logout">
@@ -38,11 +37,7 @@ const user = computed(() => store.state.user);
   height: 2.5rem;
   border-radius: 100%;
 }
-.mini-profile__title {
-  margin: 0.5rem 0;
-  color: var(--secondary-light-color);
-  font-size: 0.75rem;
-}
+
 .mini-profile__logout {
   display: flex;
   align-items: center;
