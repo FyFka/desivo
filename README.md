@@ -1,3 +1,10 @@
+# Preview
+![image](https://user-images.githubusercontent.com/76843185/200634858-4c7db9bd-cb49-4e99-82e1-e8db25ec9fcf.png)
+
+
+![image](https://user-images.githubusercontent.com/76843185/200633936-d40e268a-cf40-4ff1-bcdb-864d7228718a.png)
+
+
 # Tauri + Vue 3 + TypeScript
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
