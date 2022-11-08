@@ -1,9 +1,9 @@
 # Preview
 ![image](https://user-images.githubusercontent.com/76843185/200634858-4c7db9bd-cb49-4e99-82e1-e8db25ec9fcf.png)
 
+![image](https://user-images.githubusercontent.com/76843185/200635212-39b96b0a-b509-4223-ab90-6ee037e3f321.png)
 
 ![image](https://user-images.githubusercontent.com/76843185/200633936-d40e268a-cf40-4ff1-bcdb-864d7228718a.png)
-
 
 # Tauri + Vue 3 + TypeScript
 
